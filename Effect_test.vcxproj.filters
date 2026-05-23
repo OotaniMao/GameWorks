@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\FpsController">
+      <UniqueIdentifier>{b07a32f0-bfdb-4a6a-bffd-59031294dcfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Animation">
+      <UniqueIdentifier>{6cf0f845-b9ba-4bb6-a5b2-8bf898efac01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Camera">
+      <UniqueIdentifier>{d4656229-90ed-4b3c-b648-4ddc9c694c58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Collision">
+      <UniqueIdentifier>{9a7c9eee-6adc-4367-add6-368bde482d9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Effect">
+      <UniqueIdentifier>{f3d9cbe0-f6aa-424d-addf-5df8805cad5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Skydome">
+      <UniqueIdentifier>{f10cc115-0f27-4caa-b3b5-446e86d35019}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ShadowMap">
+      <UniqueIdentifier>{267ee0e3-a703-4ebf-9efe-7ba84a2ffbcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Model">
+      <UniqueIdentifier>{521eba5b-5942-43bb-b3e0-09f903605add}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Map">
+      <UniqueIdentifier>{6e48c948-e2e8-4c98-b550-87308cafffce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Gauge">
+      <UniqueIdentifier>{6e57b91e-a2f9-469d-93d6-b99edbdc359e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Graffiti">
+      <UniqueIdentifier>{afe2d9b7-3c0f-43db-a19f-fc65d8594e1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Baton">
+      <UniqueIdentifier>{c291eb8e-fc8d-4b49-8f40-ac2bc2dd7e8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Movie">
+      <UniqueIdentifier>{dabec1ff-a467-4eaf-8f9b-fde78edb273a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Font">
+      <UniqueIdentifier>{d68b41bf-7bef-489c-9ff7-85406c8f2d65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Goal">
+      <UniqueIdentifier>{99c08d48-fe32-4c89-a44c-a088d20e34f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\AfterImage">
+      <UniqueIdentifier>{af48111c-a1f4-4e53-894d-87b69436a820}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Sound">
+      <UniqueIdentifier>{3da747ca-c3ce-4d8f-a6e1-115934adb43f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Time">
+      <UniqueIdentifier>{ae036544-3069-4c01-b121-5ac889ac4b9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Character">
+      <UniqueIdentifier>{21324879-3407-483e-8543-70a094ea4725}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Character\Enemy">
+      <UniqueIdentifier>{b41416ec-f6b8-45c1-a181-1459eecbf85a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Character\EnemyManager">
+      <UniqueIdentifier>{8cba84de-3151-4eb8-8d7c-f09e65995f1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Character\Player">
+      <UniqueIdentifier>{1e7ba507-dcaa-43a8-8245-8c20a045a849}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Input">
+      <UniqueIdentifier>{e1ee7edc-7d54-4caa-a70d-74840e1c158d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Scene">
+      <UniqueIdentifier>{963807c8-92b8-4dfc-9ec5-af99b1fcc13a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Scene\EndScene">
+      <UniqueIdentifier>{46638696-f943-455f-bb42-1f219468ec59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Scene\SceneUtility">
+      <UniqueIdentifier>{b5426cdc-5f92-45ec-b930-2152c80ff4cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Scene\TitleScene">
+      <UniqueIdentifier>{d3f26599-5647-43de-a9a5-454994841c05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Scene\PlayScene">
+      <UniqueIdentifier>{67c3eae2-37c2-4953-af09-4dfafdfcd7cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Scene\OptionScene">
+      <UniqueIdentifier>{d0178d3f-4e91-4c14-9b1a-5ae9680b7b13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Scene\GameMain">
+      <UniqueIdentifier>{e30c9dde-f092-46a4-8dd9-8615a55f8cc5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="FpsController.cpp">
+      <Filter>ソース ファイル\FpsController</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>ソース ファイル\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>ソース ファイル\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>ソース ファイル\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Skydome.cpp">
+      <Filter>ソース ファイル\Skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowMap.cpp">
+      <Filter>ソース ファイル\ShadowMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ソース ファイル\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>ソース ファイル\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>ソース ファイル\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Gauge.cpp">
+      <Filter>ソース ファイル\Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="Graffiti.cpp">
+      <Filter>ソース ファイル\Graffiti</Filter>
+    </ClCompile>
+    <ClCompile Include="Baton.cpp">
+      <Filter>ソース ファイル\Baton</Filter>
+    </ClCompile>
+    <ClCompile Include="Movie.cpp">
+      <Filter>ソース ファイル\Movie</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>ソース ファイル\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>ソース ファイル\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="Goal.cpp">
+      <Filter>ソース ファイル\Goal</Filter>
+    </ClCompile>
+    <ClCompile Include="AfterImage.cpp">
+      <Filter>ソース ファイル\AfterImage</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>ソース ファイル\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>ソース ファイル\Character\EnemyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="EndScene.cpp">
+      <Filter>ソース ファイル\Scene\EndScene</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionScene.cpp">
+      <Filter>ソース ファイル\Scene\OptionScene</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayScene.cpp">
+      <Filter>ソース ファイル\Scene\PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>ソース ファイル\Scene\TitleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneUtility.cpp">
+      <Filter>ソース ファイル\Scene\SceneUtility</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMain.cpp">
+      <Filter>ソース ファイル\Scene\GameMain</Filter>
+    </ClCompile>
+    <ClCompile Include="main_2.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FpsController.h">
+      <Filter>ソース ファイル\FpsController</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>ソース ファイル\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>ソース ファイル\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>ソース ファイル\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Skydome.h">
+      <Filter>ソース ファイル\Skydome</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowMap.h">
+      <Filter>ソース ファイル\ShadowMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ソース ファイル\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>ソース ファイル\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>ソース ファイル\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Gauge.h">
+      <Filter>ソース ファイル\Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="Graffiti.h">
+      <Filter>ソース ファイル\Graffiti</Filter>
+    </ClInclude>
+    <ClInclude Include="R_Math.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Baton.h">
+      <Filter>ソース ファイル\Baton</Filter>
+    </ClInclude>
+    <ClInclude Include="Movie.h">
+      <Filter>ソース ファイル\Movie</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>ソース ファイル\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>ソース ファイル\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Goal.h">
+      <Filter>ソース ファイル\Goal</Filter>
+    </ClInclude>
+    <ClInclude Include="AfterImage.h">
+      <Filter>ソース ファイル\AfterImage</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>ソース ファイル\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>ソース ファイル\Character\EnemyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterInterface.h">
+      <Filter>ソース ファイル\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="InputInterface.h">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraInterface.h">
+      <Filter>ソース ファイル\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="EndScene.h">
+      <Filter>ソース ファイル\Scene\EndScene</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionScene.h">
+      <Filter>ソース ファイル\Scene\OptionScene</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScene.h">
+      <Filter>ソース ファイル\Scene\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>ソース ファイル\Scene\TitleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneUtility.h">
+      <Filter>ソース ファイル\Scene\SceneUtility</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneBase.h">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMain.h">
+      <Filter>ソース ファイル\Scene\GameMain</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
