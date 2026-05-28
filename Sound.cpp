@@ -1,6 +1,6 @@
 #include"DxLib.h"
 #include"R_Math.h"
-#include "Sound.h"
+#include"Sound.h"
 #define DEBUG
 
 Sound::Sound()

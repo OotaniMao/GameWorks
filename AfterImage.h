@@ -57,7 +57,7 @@ public:
 
 	Afterimage();
 	virtual ~Afterimage();
-
+	
 	void Init();		// ‰Šú‰»
 
 	void SetModel(Afterimage_model NewModel);	// c‘œ‚Ìİ’è

@@ -1,5 +1,5 @@
 #include"DxLib.h"
-#include "SceneUtility.h"
+#include"SceneUtility.h"
 #include"Config.h"
 #include"Input.h"
 #include"Sound.h"

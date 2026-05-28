@@ -2,7 +2,6 @@
 #include<memory>
 #include"Config.h"
 #include"GameMain.h"
-#include"SceneUtility.h"
 //#define DEBUG
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR lpszCmdLine, int nCmdShow)

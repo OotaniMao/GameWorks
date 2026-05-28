@@ -4,11 +4,7 @@
 #include"Font.h"
 #include"Sound.h"
 #include"Movie.h"
-#include"SceneUtility.h"
 #include"TitleScene.h"
-#include"OptionScene.h"
-#include"PlayScene.h"
-#include"EndScene.h"
 
 GameMain::GameMain()
 {

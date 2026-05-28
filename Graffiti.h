@@ -1,5 +1,4 @@
 #pragma once
-#include"DxLib.h"
 #include<map>
 
 class Enemy;

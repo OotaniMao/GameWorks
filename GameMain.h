@@ -2,11 +2,6 @@
 #include<memory>
 #include"SceneBase.h"
 
-class Sound;
-class IInput;
-class Font;
-class Movie;
-class FpsController;
 struct GameContext;int;
 
 class GameMain

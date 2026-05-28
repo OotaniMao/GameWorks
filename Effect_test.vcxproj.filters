@@ -55,9 +55,6 @@
     <Filter Include="ソース ファイル\Goal">
       <UniqueIdentifier>{99c08d48-fe32-4c89-a44c-a088d20e34f5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\AfterImage">
-      <UniqueIdentifier>{af48111c-a1f4-4e53-894d-87b69436a820}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Sound">
       <UniqueIdentifier>{3da747ca-c3ce-4d8f-a6e1-115934adb43f}</UniqueIdentifier>
     </Filter>
@@ -156,9 +153,6 @@
     <ClCompile Include="Goal.cpp">
       <Filter>ソース ファイル\Goal</Filter>
     </ClCompile>
-    <ClCompile Include="AfterImage.cpp">
-      <Filter>ソース ファイル\AfterImage</Filter>
-    </ClCompile>
     <ClCompile Include="Sound.cpp">
       <Filter>ソース ファイル\Sound</Filter>
     </ClCompile>
@@ -244,9 +238,6 @@
     </ClInclude>
     <ClInclude Include="Goal.h">
       <Filter>ソース ファイル\Goal</Filter>
-    </ClInclude>
-    <ClInclude Include="AfterImage.h">
-      <Filter>ソース ファイル\AfterImage</Filter>
     </ClInclude>
     <ClInclude Include="Sound.h">
       <Filter>ソース ファイル\Sound</Filter>

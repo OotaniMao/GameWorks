@@ -2,8 +2,6 @@
 #include"R_Math.h"
 #include<vector>
 
-class Player;
-class Map;
 
 typedef struct StageCollResult {
 	float floor_y;

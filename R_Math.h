@@ -1,15 +1,15 @@
 #pragma once
 #include<cmath>
 
-typedef struct Vec2 {
+struct Vec2 {
 	float x;
 	float y;
-}Vec2;
+};
 
-typedef struct Square {
+struct Square {
 	Vec2 pos;
 	Vec2 size;
-}Square;
+};
 
 
 /// @brief 線分
@@ -29,12 +29,12 @@ struct Segment {
 /// @brief 球
 ///　@param pos 中心座標
 ///　@param radius 半径
-typedef struct Sphere {
+struct Sphere {
 	VECTOR pos;
 	float radius;
 
 	Sphere(VECTOR p=VGet(0,0,0),float r=0.0f):pos(p),radius(r){}
-}Sphere;
+};
 
 /// @brief カプセル
 /// @param pos 座標１
@@ -90,21 +90,23 @@ namespace R_Math {
 	/// @return 線分と点の最短距離
 	inline VECTOR CalcDistancePointToLineSegment(const VECTOR& point, const Segment& seg)
 	{
-		VECTOR seg_vec = seg.GetDirection();//線分ベクトル（終点ー始点）
-		float denominator = VDot(seg_vec, seg_vec);//分母=線分の長さ^2
-		if (denominator == 0.0f)return VSub(seg.start, point);//線分が点だった場合点との距離を返す
-		float inner_product = VDot(seg_vec, VSub(point, seg.start));//内積
-		float t = inner_product / denominator;//射影比
-		if (t < 0.0f) {//最近接点は線分の始点側にある
+		VECTOR seg_vec = seg.GetDirection();							//線分ベクトル（終点ー始点）
+		float denominator = VDot(seg_vec, seg_vec);						//分母=線分の長さ^2
+		if (denominator == 0.0f)return VSub(seg.start, point);			//線分が点だった場合点との距離を返す
+		float inner_product = VDot(seg_vec, VSub(point, seg.start));	//内積
+		float t = inner_product / denominator;							//射影比
+		//最近接点は線分の始点側にある
+		if (t < 0.0f) {
 			return VSub(seg.start, point);
 		}
-		else if (t > 1.0f) {//最近接点は線分の終点側にある
+		//最近接点は線分の終点側にある
+		else if (t > 1.0f) {
 			return VSub(seg.end, point);
 		}
 		else {
 			//最近接点は線分上に存在する
-			VECTOR orthographic = VScale(seg_vec, t);//正射影ベクトル（始点から最近接点）
-			VECTOR orthgonal_pos = VAdd(seg.start, orthographic);//射影点座標
+			VECTOR orthographic = VScale(seg_vec, t);					//正射影ベクトル（始点から最近接点）
+			VECTOR orthgonal_pos = VAdd(seg.start, orthographic);		//射影点座標
 			return VSub(orthgonal_pos, point);
 		}
 	}
@@ -114,14 +116,14 @@ namespace R_Math {
 	/// @return 射影点座標
 	inline VECTOR CalcOrthogonalProjection(const VECTOR& point, const Segment& seg)
 	{
-		VECTOR line_segment = VSub(seg.end, seg.start);//線分ベクトル（終点ー始点）
-		float denominator = VDot(line_segment, line_segment);//分母=線分の長さ^2
-		if (denominator == 0.0f)return VSub(seg.start, point);//線分が点だった場合点との距離を返す
-		float inner_product = VDot(line_segment, VSub(point, seg.start));//内積
-		float t = inner_product / denominator;//射影比
+		VECTOR line_segment = VSub(seg.end, seg.start);						//線分ベクトル（終点ー始点）
+		float denominator = VDot(line_segment, line_segment);				//分母=線分の長さ^2
+		if (denominator == 0.0f)return VSub(seg.start, point);				//線分が点だった場合点との距離を返す
+		float inner_product = VDot(line_segment, VSub(point, seg.start));	//内積
+		float t = inner_product / denominator;								//射影比
 		//最近接点は線分上に存在する
-		VECTOR orthographic = VScale(line_segment, t);//正射影ベクトル（始点から最近接点）
-		VECTOR orthgonal_pos = VAdd(seg.start, orthographic);//射影点座標
+		VECTOR orthographic = VScale(line_segment, t);						//正射影ベクトル（始点から最近接点）
+		VECTOR orthgonal_pos = VAdd(seg.start, orthographic);				//射影点座標
 
 		return orthgonal_pos;
 	}
@@ -129,18 +131,18 @@ namespace R_Math {
 	/// @return  線分と線分の最短距離方向　線分2→線分1
 	inline VECTOR CalcSegmentToSegment(const Segment& segment, const Segment& segment2)
 	{
-		VECTOR segA =segment.GetDirection();//線分１の方向ベクトル
-		VECTOR segB = segment2.GetDirection();//線分２の方向ベクトル
-		VECTOR segC = VSub(segment.start, segment2.start);//segment2.start→segment.startのベクトル
+		VECTOR segA =segment.GetDirection();				//線分１の方向ベクトル
+		VECTOR segB = segment2.GetDirection();				//線分２の方向ベクトル
+		VECTOR segC = VSub(segment.start, segment2.start);	//segment2.start→segment.startのベクトル
 
-		float dot_segA = VDot(segA, segA);//線分１の距離の2乗
-		float dot_segB = VDot(segB, segB);//線分２の距離の2乗
-		float dot_segAB = VDot(segA, segB);//線分１と線分２の方向ベクトルの内積
-		float dot_segAC = VDot(segA, segC);//線分１と線分３の方向ベクトルの内積
-		float dot_segBC = VDot(segB, segC);//線分２と線分３の方向ベクトルの内積
+		float dot_segA = VDot(segA, segA);	//線分１の距離の2乗
+		float dot_segB = VDot(segB, segB);	//線分２の距離の2乗
+		float dot_segAB = VDot(segA, segB);	//線分１と線分２の方向ベクトルの内積
+		float dot_segAC = VDot(segA, segC);	//線分１と線分３の方向ベクトルの内積
+		float dot_segBC = VDot(segB, segC);	//線分２と線分３の方向ベクトルの内積
 
-		float denominator = dot_segA * dot_segB - dot_segAB * dot_segAB;//2線分の方向ベクトルから導かれる分母
-		float s, t;//ベクトル係数(0<=s,t<=1)
+		float denominator = dot_segA * dot_segB - dot_segAB * dot_segAB;	//2線分の方向ベクトルから導かれる分母
+		float s, t;	//ベクトル係数(0<=s,t<=1)
 		float MIN = 0.0f;
 		float MAX = 1.0f;
 		float EPS = 1.0e-7f;

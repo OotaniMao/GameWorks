@@ -6,19 +6,19 @@
 //#define DEBUG
 
 namespace EnemyConfig {
-	const float EPSILON = 0.0001f;
+	constexpr float EPSILON = 0.0001f;
 	static constexpr float DOWN_SINK_SPEED = 0.30f;
 	static constexpr float FADE_OUT_SPEED = 0.005f;
 	static constexpr float CAPSULE_HEIGHT = 100.0f;
 	static constexpr float STOP_DISTANCE_MERGIN = 3.0f;
 	static constexpr float WARP_DISTANCE_THRESHOLD = 1500.0f;
 	static constexpr float WARP_FORWARD_OFFSET = 1000.0f;
-	const float FLOOR_MIN_Y = 5.0f;
-	const float KNOCKBACK_FRICTION = 0.8f;//吹き飛ばしの減衰率
-	const float STOOP_THRESHOLD = 0.01f;//停止とみなす速度しきい値
-	const int WHITE = GetColor(255, 255, 255);
-	const int RED = GetColor(255, 0, 0);
-	const float ATTACK_INTERVAL = 60.0f;//再攻撃までの待ち時間（フレーム単位）
+	constexpr float FLOOR_MIN_Y = 5.0f;
+	constexpr float KNOCKBACK_FRICTION = 0.8f;//吹き飛ばしの減衰率
+	constexpr float STOOP_THRESHOLD = 0.01f;//停止とみなす速度しきい値
+	constexpr int WHITE = 0xFFFFFF;
+	constexpr int RED = 0xFF0000;
+	constexpr float ATTACK_INTERVAL = 60.0f;//再攻撃までの待ち時間（フレーム単位）
 }
 
 Enemy::Enemy()

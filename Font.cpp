@@ -1,5 +1,4 @@
 #include"DxLib.h"
-#include<Windows.h>
 #include"Font.h"
 
 Font::Font()

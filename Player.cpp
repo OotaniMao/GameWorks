@@ -6,7 +6,6 @@
 #include"InputInterface.h"
 #include"Camera.h"
 #include"Gauge.h"
-#include"AfterImage.h"
 #include"Player.h"
 #include"Movie.h"
 #include"math.h"
@@ -40,7 +39,6 @@ Player::Player(std::shared_ptr<Collision>& coll,std::shared_ptr<Gauge>&spMovieGa
 	square.size = { 100.0f,20.0f };
 
 	//インスタンス生成
-	after_image = std::make_shared<Afterimage>();
 	hp_gauge = std::make_shared<Gauge>(PlayerConfig::MAX_HP, PlayerConfig::MAX_HP, square);
 	animation = std::make_shared<Animation>("model/player/playerModel3.mv1");
 	special_move_gauge = spMovieGauge;
@@ -170,12 +168,6 @@ void Player::Update(float timeScale,const std::vector<std::shared_ptr<ICharacter
 	animation->Update(static_cast<unsigned int>(current_anim_state), static_cast<unsigned int>(prev_anim_state), is_blend_anim);
 
 	UpdateHpGaugeColor();
-	
-	
-	//残像の描画
-	after_image->Update(Set_Afterimage_Model(animation->getModelHandle()),Set_Afterimage_Light(status.pos,VAdd(status.pos,VGet(30.0f,0.0f,0.0f))));
-	after_image->Draw();
-	after_image->Delete();
 }
 
 void Player::UpdateFramePosition()

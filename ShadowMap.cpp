@@ -2,7 +2,7 @@
 #include"Player.h"
 #include"Map.h"
 #include"EnemyManager.h"
-#include "ShadowMap.h"
+#include"ShadowMap.h"
 
 ShadowMap::ShadowMap()
 	:stage_shadow_map_handle(-1)//シャドウマップの作成

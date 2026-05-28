@@ -1,5 +1,5 @@
 #include"DxLib.h"
-#include "TitleScene.h"
+#include"TitleScene.h"
 #include"PlayScene.h"
 #include"OptionScene.h"
 #include"Config.h"

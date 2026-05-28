@@ -4,7 +4,6 @@
 #include"R_Math.h"
 #include"CharacterInterface.h"
 
-class Afterimage;
 class ICamera;
 class Animation;
 class IInput;
@@ -68,7 +67,6 @@ public:
 private:
 	std::shared_ptr<Gauge>hp_gauge;//体力バー
 	std::shared_ptr<Animation>animation;//モデルのアニメーション
-	std::shared_ptr<Afterimage>after_image;
 	std::shared_ptr<Collision>collision;
 	std::shared_ptr<Gauge>special_move_gauge;
 	std::shared_ptr<IInput>input;

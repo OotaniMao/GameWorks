@@ -1,7 +1,4 @@
 #include"DxLib.h"
-#include"Map.h"
-#include"Player.h"
-#include"Enemy.h"
 #include "Collision.h"
 //#define DEBUG
 

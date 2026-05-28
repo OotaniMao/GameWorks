@@ -1,7 +1,6 @@
-#include "Graffiti.h"
 #include"DxLib.h"
+#include "Graffiti.h"
 #include"Enemy.h"
-#include "Player.h"
 
 Graffiti::Graffiti()
 	:pos(VGet(0,0,0))

@@ -1,5 +1,4 @@
 #pragma once
-#include"DxLib.h"
 
 enum class CameraState {
 	NORMAL = 0,//í èÌ

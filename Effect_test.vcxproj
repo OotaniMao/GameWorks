@@ -140,7 +140,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AfterImage.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Baton.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -170,7 +169,6 @@
     <ClCompile Include="TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AfterImage.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Baton.h" />
     <ClInclude Include="Camera.h" />

@@ -1,5 +1,4 @@
 #include"DxLib.h"
-#include"R_Math.h"
 #include "Gauge.h"
 //#define DEBUG
 
