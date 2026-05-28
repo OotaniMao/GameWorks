@@ -2,8 +2,8 @@
 #include"R_Math.h"
 #include<vector>
 
-const class Player;
-const class Map;
+class Player;
+class Map;
 
 typedef struct StageCollResult {
 	float floor_y;
@@ -46,7 +46,7 @@ public:
 	/// @param capsule  操作対象（プレイヤー）のカプセル
 	/// @param capsule2 対象物（ギミック）のカプセル
 	/// @return VECTOR  移動後の座標
-	VECTOR CapsuleSlider(const Capsule& capsule,const Capsule&capsule2,VECTOR _pos);
+	VECTOR CapsuleSlider(const Capsule& capsule,const Capsule&capsule2,VECTOR pos);
 	
 
 	/// @brief ステージとカプセルの当たり判定処理
@@ -54,6 +54,6 @@ public:
 
 private:
 	
-	float GetPolyMaxY(const MV1_COLL_RESULT_POLY* p_poly);
-	VECTOR ResolveOverlap(const VECTOR& current_pos,const MV1_COLL_RESULT_POLY*p_poly,float radius);
+	float GetPolyMaxY(const MV1_COLL_RESULT_POLY* pPoly);
+	VECTOR ResolveOverlap(const VECTOR& currentPos,const MV1_COLL_RESULT_POLY*pPoly,float radius);
 };

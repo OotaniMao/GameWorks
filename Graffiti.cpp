@@ -1,7 +1,6 @@
 #include "Graffiti.h"
 #include"DxLib.h"
 #include"Enemy.h"
-//#include"Effect.h"
 #include "Player.h"
 
 Graffiti::Graffiti()
@@ -19,20 +18,20 @@ Graffiti::~Graffiti()
 {
 }
 
-void Graffiti::Load(const Graph& graph_state, const char* file_name)
+void Graffiti::Load(const Graph& graphState, const char* fileName)
 {
-	graph_handle[graph_state] = LoadGraph(file_name);
+	graph_handle[graphState] = LoadGraph(fileName);
 }
 
-void Graffiti::Draw(const Graph& graph_state)
+void Graffiti::Draw(const Graph& graphState)
 {
 	if (graph_handle.empty())return;
-	DrawBillboard3D(pos,cx,cy,size,angle,graph_handle[graph_state], trans);
+	DrawBillboard3D(pos,cx,cy,size,angle,graph_handle[graphState], trans);
 }
-void Graffiti::Update(const Enemy&enemy/*,const Effect&effect*/)
+void Graffiti::Update(const Enemy&enemy)
 {
 	pos = VAdd(enemy.getPos(),VGet(0,100,0));
-	if (enemy.getCurrentState() == State::S_DOWN/*&&effect.getIsAlive()*/) {
+	if (enemy.getCurrentState() == State::DOWN) {
 		Draw(Graph::Heart);
 	}
 }

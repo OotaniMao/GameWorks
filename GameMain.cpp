@@ -37,7 +37,7 @@ void GameMain::Run()
 	current_scene->Update();
 	current_scene->Draw();
 
-	std::unique_ptr<ISceneBase>next_scene = current_scene->GetNextScene();
+	std::unique_ptr<ISceneBase>next_scene = current_scene->getNextScene();
 
 	if (next_scene != nullptr) {
 		current_scene = std::move(next_scene);

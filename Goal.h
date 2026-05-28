@@ -7,7 +7,6 @@ class Player;
 class Goal
 {
 private:
-	static constexpr float GOAL_RADIUS = 300.0f;
 	static constexpr int VERTEX_COUNT = 4;
 	static constexpr int INDEX_COUNT = 6;
 
@@ -29,5 +28,5 @@ public:
 private:
 	void InitPos();
 	void InitIndex();
-	void UpdateSquareVertex(const VECTOR& center, float size, VECTOR to_goal);
+	void UpdateSquareVertex(const VECTOR& center, float size, VECTOR toGoal);
 };

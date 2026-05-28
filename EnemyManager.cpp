@@ -47,7 +47,7 @@ void EnemyManager::Init()
 	}
 }
 
-void EnemyManager::Update(const Player& player, Collision& collision, const float& deltaTime/*, const Effect& effect*/,const int&mapModelHandle)
+void EnemyManager::Update(const Player& player, Collision& collision, const float& deltaTime,const int&mapModelHandle)
 {
 	CheckSpawnPoints(player.getPos(), deltaTime);
 
@@ -64,7 +64,7 @@ void EnemyManager::Update(const Player& player, Collision& collision, const floa
 		}
 		else {
 			enemy->IsHitColl(player.getPos(), enemy->getCollCapsule());
-			enemy->Update(player, collision, deltaTime/*, effect*/, mapModelHandle);
+			enemy->Update(player, collision, deltaTime, mapModelHandle);
 		}
 	}
 
@@ -115,17 +115,17 @@ void EnemyManager::Draw()
 
 }
 
-void EnemyManager::AddSpawnPoint(VECTOR center, float radius, int max_num)
+void EnemyManager::AddSpawnPoint(VECTOR center, float radius, int maxNum)
 {
-	spawn_points.push_back({ center,radius,max_num,false });
+	spawn_points.push_back({ center,radius,maxNum,false });
 }
 
-void EnemyManager::CheckSpawnPoints(const VECTOR& playerPos,const float delta_time)
+void EnemyManager::CheckSpawnPoints(const VECTOR& playerPos,const float deltaTime)
 {	
 	for (auto& sp : spawn_points) {
 		int current_alive_in_this_point = 0;
 		if (sp.is_cooling_down) {
-			UpdateSpawnCoolTime(sp,delta_time);
+			UpdateSpawnCoolTime(sp,deltaTime);
 			continue;
 		}
 

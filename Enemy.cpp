@@ -3,7 +3,6 @@
 #include"Collision.h"
 #include"Baton.h"
 #include "Enemy.h"
-//#include "Effect.h"
 //#define DEBUG
 
 namespace EnemyConfig {
@@ -14,6 +13,12 @@ namespace EnemyConfig {
 	static constexpr float STOP_DISTANCE_MERGIN = 3.0f;
 	static constexpr float WARP_DISTANCE_THRESHOLD = 1500.0f;
 	static constexpr float WARP_FORWARD_OFFSET = 1000.0f;
+	const float FLOOR_MIN_Y = 5.0f;
+	const float KNOCKBACK_FRICTION = 0.8f;//吹き飛ばしの減衰率
+	const float STOOP_THRESHOLD = 0.01f;//停止とみなす速度しきい値
+	const int WHITE = GetColor(255, 255, 255);
+	const int RED = GetColor(255, 0, 0);
+	const float ATTACK_INTERVAL = 60.0f;//再攻撃までの待ち時間（フレーム単位）
 }
 
 Enemy::Enemy()
@@ -49,9 +54,9 @@ bool Enemy::getIsPlayAnimEnd() const
 	return animation->getIsPlayEnd();
 }
 
-void Enemy::Init(VECTOR start_pos)
+void Enemy::Init(VECTOR startPos)
 {
-	pos = start_pos;
+	pos = startPos;
 	next_pos = VGet(0.0f, 0.0f, 0.0f); // 前回の移動速度をクリア
 	impact_dir = VGet(0.0f, 0.0f, 0.0f);
 	model_rotate_angle = MGetRotY(0);
@@ -69,8 +74,8 @@ void Enemy::Init(VECTOR start_pos)
 	//アニメーション・状態の初期化
 	current_anim_state = AnimState::IDLE;
 	prev_anim_state = AnimState::IDLE;
-	current_state = State::S_IDLE;
-	prev_state = State::S_IDLE;
+	current_state = State::IDLE;
+	prev_state = State::IDLE;
 
 	opacity = 1.0f;                             // 透明度を戻す
 	animation->SetOpacityRate(opacity);         // アニメーションクラスに反映
@@ -86,7 +91,7 @@ void Enemy::Init(VECTOR start_pos)
 void Enemy::Draw()
 {
 	baton->Draw();
-	animation->setModelMatrix(pos, model_rotate_angle);
+	animation->SetModelMatrix(pos, model_rotate_angle);
 	animation->DrawModel();
 }
 void Enemy::IsHitColl(const VECTOR playerPos, const Capsule& cap1)
@@ -99,7 +104,7 @@ void Enemy::IsHitColl(const VECTOR playerPos, const Capsule& cap1)
 	sphere = { cap1.pos2,200.0f };
 	is_special_range_hit = coll.CapsuleToSphere(capsule, sphere);
 }
-void Enemy::Update(const ICharacter& target, Collision& collision, const float& deltaTime/*,const Effect&effect*/, const int& mapModelHandle)
+void Enemy::Update(const ICharacter& target, Collision& collision, const float& deltaTime, const int& mapModelHandle)
 {
 	if (is_finished) return;
 	prev_state = current_state;
@@ -114,13 +119,13 @@ void Enemy::Update(const ICharacter& target, Collision& collision, const float& 
 	if (is_finished)return;
 
 	//ダウン状態時は専用の更新処理を行い、他の行動をスキップ
-	if (current_state == State::S_DOWN) {
+	if (current_state == State::DOWN) {
 		UpdateDownState();
 		return;
 	}
 
 	//被弾衝撃状態でなければ移動処理を実行
-	if (current_state != State::S_IMPACT) {
+	if (current_state != State::IMPACT) {
 		Move(target.getPos(),target.getCollCapsule().radius);
 	}
 
@@ -133,7 +138,7 @@ void Enemy::Update(const ICharacter& target, Collision& collision, const float& 
 	UpdateStateTransitions(target);
 
 	//被弾衝撃状態の物理挙動を処理
-	if (current_state == State::S_IMPACT) {
+	if (current_state == State::IMPACT) {
 		ProcessImpactState();
 	}
 
@@ -189,24 +194,24 @@ void Enemy::UpdateStateTransitions(const ICharacter& target)
 {
 	static Collision coll;
 
-	if (current_state == State::S_DOWN)return;
-	if (current_state == State::S_IMPACT)return;
+	if (current_state == State::DOWN)return;
+	if (current_state == State::IMPACT)return;
 
 	//必殺技によるダウン判定：プレイヤーが必殺技かつ再生終了タイミングで範囲内にいる場合
-	if (target.getCurrentState() == State::S_SPECIAL_ATTACK &&
+	if (target.getCurrentState() == State::SPECIAL_ATTACK &&
 		target.getIsPlayAnimEnd() && is_special_range_hit) {
-		current_state = State::S_DOWN;
+		current_state = State::DOWN;
 		current_anim_state = AnimState::DOWN;
 		is_alive = false;
 		return;
 	}
 	//蹴り被弾判定：プレイヤーの右足スフィアとの接触及び高さ条件のチェック
-	if (target.getCurrentState() == State::S_KICK) {
+	if (target.getCurrentState() == State::KICK) {
 
 		Sphere pl_sphere = { target.getRightLegPos(),target.getSphereRadius() };
 		if (!coll.CapsuleToSphere(coll_cap, pl_sphere) || pl_sphere.pos.y <= VSize(target.getCollCapsule().GetAxis().GetDirection()) / 4)return;
 
-		current_state = State::S_IMPACT;
+		current_state = State::IMPACT;
 		current_anim_state = AnimState::IMPACT;
 
 		//ノックバック方向と初期速度の計算
@@ -220,14 +225,14 @@ void Enemy::UpdateStateTransitions(const ICharacter& target)
 	}
 
 	//衝撃状態継続中は以下の自働遷移をスキップ
-	if (current_state == State::S_IMPACT)return;
+	if (current_state == State::IMPACT)return;
 
 
-	if (current_state == State::S_ATTACK) {
+	if (current_state == State::ATTACK) {
 		if (animation->getIsPlayEnd()) {
-			current_state = State::S_IDLE;
+			current_state = State::IDLE;
 			current_anim_state = AnimState::IDLE;
-			attack_cool_time = ATTACK_INTERVAL;
+			attack_cool_time = EnemyConfig::ATTACK_INTERVAL;
 		}
 		return;
 	}
@@ -240,15 +245,15 @@ void Enemy::UpdateStateTransitions(const ICharacter& target)
 	//攻撃・走行・待機の優先順位に基づく遷移
 	is_attack = getIsSpecialRangeHit();
 	if (is_attack && attack_cool_time <= 0.0f) {
-		current_state = State::S_ATTACK;
+		current_state = State::ATTACK;
 		current_anim_state = AnimState::SLASH;
 	}
 	else if (is_move) {
 		current_anim_state = AnimState::RUN;
-		current_state = State::S_RUN;
+		current_state = State::RUN;
 	}
 	else {
-		current_state = State::S_IDLE;
+		current_state = State::IDLE;
 		current_anim_state = AnimState::IDLE;
 	}
 
@@ -258,15 +263,15 @@ void Enemy::ProcessImpactState()
 {
 	//アニメーション終了時に待機状態へ復帰
 	if (animation->getIsPlayEnd()) {
-		current_state = State::S_IDLE;
+		current_state = State::IDLE;
 		current_anim_state = AnimState::IDLE;
 		impact_dir = VGet(0.0f, 0.0f, 0.0f);
 		return;
 	}
 	next_pos = VAdd(next_pos, impact_dir);
-	impact_dir = VScale(impact_dir, KNOCKBACK_FRICTION);
+	impact_dir = VScale(impact_dir, EnemyConfig::KNOCKBACK_FRICTION);
 	//速度がしきい値以下になったら停止
-	if (VSize(impact_dir) < STOOP_THRESHOLD)impact_dir = VGet(0.0f, 0.0f, 0.0f);
+	if (VSize(impact_dir) < EnemyConfig::STOOP_THRESHOLD)impact_dir = VGet(0.0f, 0.0f, 0.0f);
 }
 //プレイヤーを追尾する移動計算
 void Enemy::Move(const VECTOR& playerPos,const float& playerCollCapsuleRadius)
@@ -301,7 +306,7 @@ void Enemy::JudgeAttack()
 {
 	is_attack = getIsSpecialRangeHit();
 	if (!is_attack) return;
-	current_state = State::S_ATTACK;
+	current_state = State::ATTACK;
 	current_anim_state = AnimState::SLASH;
 }
 //モデルの前方方向ベクトルの更新
@@ -312,9 +317,9 @@ void Enemy::UpdateRotation()
 }
 
 //簡易的な重力演算と地面接地判定
-void Enemy::ApplyPhysics(float delta_time)
+void Enemy::ApplyPhysics(float deltaTime)
 {
-	float time_scale = delta_time * 60.0f;
+	float time_scale = deltaTime * 60.0f;
 	if (!is_touch_ground) {
 		next_pos.y -= Config::GRAVITY * time_scale;
 		if (next_pos.y <= -20.0f) {
@@ -362,5 +367,5 @@ void Enemy::JudgeRun()
 {
 	if (!is_move) return;
 	current_anim_state = AnimState::RUN;
-	current_state = State::S_RUN;
+	current_state = State::RUN;
 }

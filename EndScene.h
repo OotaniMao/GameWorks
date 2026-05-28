@@ -7,7 +7,6 @@
 enum class End_Menu :int {
 	END_REPLAY,
 	END_TITLE,
-	//END_EXIT,
 	END_MAX
 };
 
@@ -35,7 +34,7 @@ public:
 	void Update()override;
 	void Draw()override;
 
-	std::unique_ptr<ISceneBase>GetNextScene()override;
+	std::unique_ptr<ISceneBase>getNextScene()override;
 private:
 	std::shared_ptr<GameContext>ctx;
 	std::shared_ptr<Goal>goal;

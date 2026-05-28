@@ -3,7 +3,6 @@
 #include"Player.h"
 #include"Enemy.h"
 #include "Collision.h"
-using namespace R_Math;
 //#define DEBUG
 
 Collision::Collision()
@@ -26,10 +25,9 @@ bool Collision::CapsuleToSphere(const Capsule& capsule, const Sphere& sphere)
 	VECTOR dis2 = VSub(capsule.pos2, sphere.pos);
 	if (VSize(dis) > VSize(dis2))dis = dis2;
 	Segment segment = { capsule.pos, capsule.pos2 };
-	VECTOR tmp = CalcDistancePointToLineSegment(sphere.pos, segment);
+	VECTOR tmp = R_Math::CalcDistancePointToLineSegment(sphere.pos, segment);
 
 	if (VSize(dis) > VSize(tmp))dis = tmp;
-	//DrawFormatString(10,150,GetColor(255,255,255),"dis:%0.2f\n",VSize(dis));
 	if (VSize(dis) <= capsule.radius + sphere.radius) {
 		is_hit = true;
 	}
@@ -43,7 +41,7 @@ bool Collision::CapsuleToSphere(const Capsule& capsule, const Sphere& sphere)
 
 VECTOR Collision::DistanceCapsuleToCapsule(const Capsule& capsule, const Capsule& capsule2)
 {
-	return CalcSegmentToSegment(capsule.GetAxis(), capsule2.GetAxis());
+	return R_Math::CalcSegmentToSegment(capsule.GetAxis(), capsule2.GetAxis());
 }
 
 bool Collision::CapsuleToCapsule(const Capsule& capsule, const Capsule& capsule2)
@@ -79,7 +77,7 @@ VECTOR Collision::ExtrusionCapsuleToCapsule(const Capsule& capsule, const Capsul
 	return velocity;
 }
 
-VECTOR Collision::CapsuleSlider(const Capsule& capsule,const Capsule&capsule2,VECTOR _pos)
+VECTOR Collision::CapsuleSlider(const Capsule& capsule,const Capsule&capsule2,VECTOR pos)
 {
 	float EPS = 5.0f;
 	VECTOR velocity;
@@ -87,15 +85,15 @@ VECTOR Collision::CapsuleSlider(const Capsule& capsule,const Capsule&capsule2,VE
 	float move_speed = 5.0f;
 	Segment seg = { capsule2.pos,capsule2.pos2 };
 	//現在地からカプセル軸（線分）への垂線の足（最短地点）を求める
-	closest_point = CalcOrthogonalProjection(_pos, seg);
+	closest_point = R_Math::CalcOrthogonalProjection(pos, seg);
 	//軸上の地点から終点へ向かうベクトルを算出
 	velocity = VSub(seg.end, closest_point);
 	//軸に沿った移動量を決定
-	velocity =SetMagnitude(velocity, move_speed);
+	velocity = R_Math::SetMagnitude(velocity, move_speed);
 	//軸上の地点から移動量分だけ進めた座標を暫定的な移動先とする
 	velocity = VAdd(closest_point,velocity);
 	//計算した移動先がほぼカプセルの終点と同じ座標かどうか判定
-	if (IsAlmostEqual(velocity.x, capsule2.pos2.x, EPS) && IsAlmostEqual(velocity.y, capsule2.pos2.y, EPS) && IsAlmostEqual(velocity.z, capsule2.pos2.z, EPS)) {
+	if (R_Math::IsAlmostEqual(velocity.x, capsule2.pos2.x, EPS) && R_Math::IsAlmostEqual(velocity.y, capsule2.pos2.y, EPS) && R_Math::IsAlmostEqual(velocity.z, capsule2.pos2.z, EPS)) {
 		VECTOR vel = VSub(seg.end, seg.start);
 		if (VSize(vel) != 0)vel = VNorm(vel);
 		//終点に到達した際、互いの半径分＋αだけさらに先へ押し出す
@@ -104,13 +102,13 @@ VECTOR Collision::CapsuleSlider(const Capsule& capsule,const Capsule&capsule2,VE
 	return velocity;
 }
 
-VECTOR Collision::ResolveOverlap(const VECTOR& current_pos, const MV1_COLL_RESULT_POLY* p_poly, float radius)
+VECTOR Collision::ResolveOverlap(const VECTOR& currentPos, const MV1_COLL_RESULT_POLY* pPoly, float radius)
 {
-	float dist = VDot(VSub(current_pos,p_poly->Position[0]),p_poly->Normal);
+	float dist = VDot(VSub(currentPos,pPoly->Position[0]),pPoly->Normal);
 	float overlap = radius - dist;
 
 	if (overlap > 0) {
-		return VScale(p_poly->Normal,overlap+0.01f);
+		return VScale(pPoly->Normal,overlap+0.01f);
 	}
 	return VGet(0,0,0);
 }
@@ -191,9 +189,9 @@ StageCollResult Collision::StageToCapsule(Capsule& capsule, const int mapModelHa
 	return result;
 }
 
-float Collision::GetPolyMaxY(const MV1_COLL_RESULT_POLY* p_poly) {
-	float max_y = p_poly->Position[0].y;
-	if (p_poly->Position[1].y > max_y) max_y = p_poly->Position[1].y;
-	if (p_poly->Position[2].y > max_y) max_y = p_poly->Position[2].y;
+float Collision::GetPolyMaxY(const MV1_COLL_RESULT_POLY* pPoly) {
+	float max_y = pPoly->Position[0].y;
+	if (pPoly->Position[1].y > max_y) max_y = pPoly->Position[1].y;
+	if (pPoly->Position[2].y > max_y) max_y = pPoly->Position[2].y;
 	return max_y;
 }

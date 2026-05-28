@@ -3,11 +3,11 @@
 #include "Gauge.h"
 //#define DEBUG
 
-Gauge::Gauge(float max_hp,float current_hp, const Square& square_ptr)
-:current_num(current_hp)
-,max_num(max_hp)
+Gauge::Gauge(float maxHp,float currentHp, const Square& squarePtr)
+:current_num(currentHp)
+,max_num(maxHp)
 {
-	square = square_ptr;
+	square = squarePtr;
 	graph_handle_bar = LoadGraph("graph/gauge_bar.png");
 	graph_handle_frame = LoadGraph("graph/gauge_frame.png");
 }
@@ -16,9 +16,9 @@ Gauge::~Gauge()
 {
 }
 
-void Gauge::Init(float max_hp)
+void Gauge::Init(float maxHp)
 {
-	current_num = max_hp;
+	current_num = maxHp;
 }
 
 void Gauge::DrawGauge_3d(const VECTOR& pos,const int& red , const int& green, const int& blue )
@@ -83,11 +83,11 @@ void Gauge::SubNum(float num)
 	current_num -= num;
 }
 
-void Gauge::Update(float charge_speed)
+void Gauge::Update(float chargeSpeed)
 {	
 	//Ž©“®ƒ`ƒƒ[ƒWˆ— (charge_speed ‚ª 0 ‚æ‚è‘å‚«‚¢ê‡‚Ì‚Ý)
-	if (charge_speed > 0.0f) {
-		current_num += charge_speed;
+	if (chargeSpeed > 0.0f) {
+		current_num += chargeSpeed;
 		if (current_num > max_num) current_num = max_num;
 	}
 	DrawDebug();

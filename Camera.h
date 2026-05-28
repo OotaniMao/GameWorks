@@ -60,7 +60,7 @@ private:
 
 	std::shared_ptr<IInput>input;
 public:
-	Camera(std::shared_ptr<IInput>& input_key);	//コンストラクタ
+	Camera(std::shared_ptr<IInput>& inputKey);	//コンストラクタ
 	~Camera();	//デストラクタ
 
 	//ゲッター
@@ -78,7 +78,7 @@ public:
 	void DrawUI();
 private:
 	/// @brief 通常カメラ
-	void NormalMove(float timeScale,const State& player_state);
+	void NormalMove(float timeScale,const State& playerState);
 	/// @brief 必殺技用カメラ
 	void SpecialMove();
 	void SetSpecialMoveCamera(int intputKeyNum);

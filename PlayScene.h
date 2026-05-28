@@ -31,10 +31,10 @@ public:
 	void Update()override;
 	void Draw()override;
 
-	std::unique_ptr<ISceneBase>GetNextScene()override;
+	std::unique_ptr<ISceneBase>getNextScene()override;
 
 private:
-	std::shared_ptr<GameContext>ctx;
+	std::shared_ptr<GameContext>	ctx;
 	std::shared_ptr<Time>			time ;
 	std::shared_ptr<Skydome>		skydome ;
 	std::shared_ptr<Map>			map ;
@@ -44,7 +44,7 @@ private:
 	std::shared_ptr<ShadowMap>		shadowMap;
 	std::shared_ptr<Goal>			goal;
 
-	std::shared_ptr<ICamera>			camera ;
+	std::shared_ptr<ICamera>		camera ;
 	std::shared_ptr<Gauge>			special_move_gauge ;//•KE‹ZƒQ[ƒW
 	std::shared_ptr<Player>			player;
 

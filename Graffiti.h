@@ -2,8 +2,7 @@
 #include"DxLib.h"
 #include<map>
 
-const class Enemy;
-//const class Effect;
+class Enemy;
 
 enum class Graph
 {
@@ -23,7 +22,7 @@ public:
 	Graffiti();
 	~Graffiti();
 
-	void Load(const Graph&graph_state,const char*file_name);
-	void Draw(const Graph& graph_state);
-	void Update(const Enemy& enemy/*,const Effect& effect*/);
+	void Load(const Graph&graphState,const char*fileName);
+	void Draw(const Graph& graphState);
+	void Update(const Enemy& enemy);
 };

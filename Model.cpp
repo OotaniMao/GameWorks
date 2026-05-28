@@ -1,12 +1,10 @@
-#include"DxLib.h"
 #include "Model.h"
 
-//https://dxlib.xsrv.jp/function/dxfunc_3d_model_1.html
 
-Model::Model(const char* FileName)
+Model::Model(const char* fileName)
 	:rot_angle(0.0f)
 {
-	model_handle = MV1LoadModel(FileName);
+	model_handle = MV1LoadModel(fileName);
 	int material_num = MV1GetMaterialNum(model_handle);
 	for (int i = 0; i < material_num; i++) {
 		MV1SetMaterialDifColor(model_handle, i, GetColorF(1.0f, 1.0f, 1.0f, 1.0f));
@@ -18,45 +16,31 @@ Model::~Model()
 	MV1DeleteModel(model_handle);
 }
 
-
-
-
-MATRIX Model::getFramePos(int frame_index)
+MATRIX Model::getFramePos(int frameIndex)
 {
-	MATRIX matrix = MV1GetFrameLocalWorldMatrix(model_handle, frame_index);
-	return matrix;
+	return MV1GetFrameLocalWorldMatrix(model_handle, frameIndex);
 }
 
-VECTOR Model::getLocalFramePos(int frame_index)
+VECTOR Model::getLocalFramePos(int frameIndex)
 {
-	int color = GetColor(255, 255, 255);
-
-	//printfDx("frameNum: %d\n", MV1GetFrameNum(model_handle));
-	//printfDx("FrameName:%s\n", MV1GetFrameName(model_handle, frame_index));
-	//MV1DrawFrame(model_handle, frame_index);
 	//指定のフレームの座標を取得する
-	VECTOR frame_pos = MV1GetFramePosition(model_handle, frame_index);
-
-	return frame_pos;
+	return MV1GetFramePosition(model_handle, frameIndex);
 }
 
 int Model::getTextureNum()
 {
-	int num = MV1GetTextureNum(model_handle);
-	return num;
+	return MV1GetTextureNum(model_handle);
 }
 
-int Model::SearchFrame(const char* frame_name)
+int Model::SearchFrame(const char* frameName)
 {
-	int serch_frame_index=MV1SearchFrame(model_handle,frame_name);
+	int serch_frame_index=MV1SearchFrame(model_handle,frameName);
 	if (serch_frame_index == -1) {
 		printfDx("Error\n");
 	}
 	if (serch_frame_index == -2) {
-		printfDx("No serch_frame_index found for frame:%s \n",frame_name);
+		printfDx("No serch_frame_index found for frame:%s \n",frameName);
 	}
-
-	//printfDx("FrameName:%s\n", MV1GetFrameName(model_handle, serch_frame_index));
 	return serch_frame_index;
 }
 
@@ -76,7 +60,7 @@ void Model::DrawModel()
 	MV1DrawModel(model_handle);
 }
 
-void Model::setModelMatrix(VECTOR pos, MATRIX rotate)
+void Model::SetModelMatrix(VECTOR pos, MATRIX rotate)
 {
 	MATRIX matrix = MMult(rotate, MGetTranslate(pos));
 	//テクスチャのフィルタリングモードを変更（描画負荷軽量化）
@@ -84,9 +68,9 @@ void Model::setModelMatrix(VECTOR pos, MATRIX rotate)
 	MV1SetMatrix(model_handle, matrix);
 }
 
-void Model::setFrameLocalMatrix(int frame_index)
+void Model::SetFrameLocalMatrix(int frameIndex)
 {
-	MATRIX matrix = MV1GetFrameLocalMatrix(model_handle, frame_index);
+	MATRIX matrix = MV1GetFrameLocalMatrix(model_handle, frameIndex);
 	rot_angle = 0.036f;
 	VECTOR center = VGet(matrix.m[3][0], matrix.m[3][1], matrix.m[3][2]);
 	matrix.m[3][0] = 0.0f;
@@ -100,11 +84,11 @@ void Model::setFrameLocalMatrix(int frame_index)
 	matrix.m[3][0] = center.x;
 	matrix.m[3][1] = center.y;
 	matrix.m[3][2] = center.z;
-	MV1SetFrameUserLocalMatrix(model_handle, frame_index, matrix);
+	MV1SetFrameUserLocalMatrix(model_handle, frameIndex, matrix);
 
 }
 
-void Model::resetFrameLocalMatrix(int frame_index)
+void Model::ResetFrameLocalMatrix(int frameIndex)
 {
-	MV1ResetFrameUserLocalMatrix(model_handle, frame_index);
+	MV1ResetFrameUserLocalMatrix(model_handle, frameIndex);
 }

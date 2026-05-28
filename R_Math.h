@@ -1,8 +1,6 @@
 #pragma once
 #include<cmath>
 
-
-
 typedef struct Vec2 {
 	float x;
 	float y;

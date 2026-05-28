@@ -32,10 +32,10 @@ class Animation :public Model
 {
 private:
 	
-	std::map<int, Anim>anim_handle;	//アニメーションのハンドル
-	std::deque<int>attach_index;
-	std::deque<bool>attach_is_loop;
-	std::deque<float>attach_play_speed;
+	std::map<int, Anim>	anim_handle;	//アニメーションのハンドル
+	std::deque<int>		attach_index;
+	std::deque<bool>	attach_is_loop;
+	std::deque<float>	attach_play_speed;
 	float total_time;
 	float play_time;
 	bool is_play_end;//アニメーションの再生が終了したかどうか
@@ -59,7 +59,7 @@ private:
 	void Detach();
 
 	//アニメーションを再生する
-	void PlayAnim(const bool& _isBlend);
+	void PlayAnim(const bool& isBlend);
 	void BlendAnim(bool isBlend);
 
 

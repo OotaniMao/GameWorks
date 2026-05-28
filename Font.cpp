@@ -25,19 +25,19 @@ void Font::Init()
 
 }
 
-void Font::DrawFormatChar(int x, int y, const char* string,int font_size, int color)
+void Font::DrawFormatChar(int x, int y, const char* string,int fontSize, int color)
 {
-	DrawFormatStringToHandle(x, y, color, handle[font_size], string);
+	DrawFormatStringToHandle(x, y, color, handle[fontSize], string);
 }
 
-void Font::DrawFormatRank(int x, int y,  char string, int font_size, int color)
+void Font::DrawFormatRank(int x, int y,  char string, int fontSize, int color)
 {
-	DrawFormatStringToHandle(x, y, color, handle[font_size], "%c",string);
+	DrawFormatStringToHandle(x, y, color, handle[fontSize], "%c",string);
 }
 
-void Font::DrawFormatNum(int x, int y, const float num, int font_size, int color)
+void Font::DrawFormatNum(int x, int y, const float num, int fontSize, int color)
 {
-	DrawFormatStringToHandle(x, y, color, handle[font_size],"%1.0f", num);
+	DrawFormatStringToHandle(x, y, color, handle[fontSize],"%1.0f", num);
 }
 
 

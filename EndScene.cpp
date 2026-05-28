@@ -60,7 +60,7 @@ void EndScene::Draw()
 	SceneUtility::DrawMenuItems(EndMenuItems, EndMenuCount, select_end_menu, ctx->font);
 }
 
-std::unique_ptr<ISceneBase> EndScene::GetNextScene()
+std::unique_ptr<ISceneBase> EndScene::getNextScene()
 {
 	if(select_scene==GameScene::TITLE)return std::make_unique<TitleScene>(ctx,time_scale);
 	if (select_scene == GameScene::PLAY)return std::make_unique<PlayScene>(ctx,time_scale);

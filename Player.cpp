@@ -30,7 +30,7 @@ namespace PlayerConfig {
 	static constexpr float FALL_DAMAGE_HEIGHT = -50.0f;//落下ダメージを受ける高さ
 	static constexpr float FALL_DAMAGE_AMOUNT = 3.0f;//落下時のダメージ量
 }
-Player::Player(std::shared_ptr<Collision>& coll,std::shared_ptr<Gauge>&sp_moive_gauge,std::shared_ptr<IInput>&input_ptr, std::shared_ptr<ICamera>& camera_ptr)
+Player::Player(std::shared_ptr<Collision>& coll,std::shared_ptr<Gauge>&spMovieGauge,std::shared_ptr<IInput>&inputPtr, std::shared_ptr<ICamera>& cameraPtr)
 	:move_speed(10.0f),
 	sphere_radius(20),
 	forward(VGet(0.0f,0.0f,1.0f)),
@@ -43,10 +43,10 @@ Player::Player(std::shared_ptr<Collision>& coll,std::shared_ptr<Gauge>&sp_moive_
 	after_image = std::make_shared<Afterimage>();
 	hp_gauge = std::make_shared<Gauge>(PlayerConfig::MAX_HP, PlayerConfig::MAX_HP, square);
 	animation = std::make_shared<Animation>("model/player/playerModel3.mv1");
-	special_move_gauge = sp_moive_gauge;
+	special_move_gauge = spMovieGauge;
 	collision = coll;
-	input = input_ptr;
-	camera = camera_ptr;
+	input = inputPtr;
+	camera = cameraPtr;
 
 	//ボーン（フレーム）の検索
 	frames.right_hand = animation->SearchFrame("mixamorig:RightHandMiddle1");
@@ -59,15 +59,12 @@ Player::Player(std::shared_ptr<Collision>& coll,std::shared_ptr<Gauge>&sp_moive_
 
 bool Player::getIsPlayAnimEnd() const 
 {
-	bool tmp = animation->getIsPlayEnd();
-	return tmp;
+	return animation->getIsPlayEnd();
 }
 
 bool Player::getIsHpMin() const
 {
-	if (hp_gauge->getCurrentNum() <= PlayerConfig::MIN_HP) {
-		return true;
-	}
+	if (hp_gauge->getCurrentNum() <= PlayerConfig::MIN_HP)return true;
 	return false;
 }
 
@@ -80,15 +77,15 @@ void Player::Init()
 {
 	//ステータスの初期化
 	status.pos = PlayerConfig::INITIAL_POS;
-	status.current_state = State::S_IDLE;
+	status.current_state = State::IDLE;
 	status.is_touch_ground = false;
 	status.velocity = VGet(0.0f, 0.0f, 0.0f);
 
 	//アニメーション・状態の初期化
-	prev_state=State::S_NONE;
+	prev_state=State::NONE;
 	current_anim_state = AnimState::IDLE;
 	prev_anim_state = AnimState::NONE;
-	current_movie_state = MovieState::M_NONE;
+	current_movie_state = MovieState::NONE;
 	animation->SetIdleState();
 
 	//フラグ類の初期化
@@ -118,7 +115,7 @@ void Player::DrawModel()
 #endif // DEBUG
 	forward = VTransform(VGet(0.0f, 0.0f, -1.0f), model_rotate_angle);
 	ChangeBlendMode();
-	animation->setModelMatrix(status.pos, model_rotate_angle);
+	animation->SetModelMatrix(status.pos, model_rotate_angle);
 	animation->DrawModel();
 }
 
@@ -141,7 +138,7 @@ void Player::Update(float timeScale,const std::vector<std::shared_ptr<ICharacter
 	HandleInput(camera->getIsSpecialMoveEnd(),camera->getInputKeyNum(), enemies, deltaTime);
 
 	//入力による移動方向(XZ平面)の決定
-	if (status.current_state == State::S_RUN || status.current_state == State::S_JUMP) {
+	if (status.current_state == State::RUN || status.current_state == State::JUMP) {
 		Move(camera->getCameraToTargetDir(), timeScale);
 	}
 	
@@ -158,7 +155,7 @@ void Player::Update(float timeScale,const std::vector<std::shared_ptr<ICharacter
 		if (enemy_ptr == nullptr || !enemy_ptr->getIsAlive())continue;
 		if (enemy_ptr->getIsSpecialRangeHit())any_enemy_in_range = true;
 	}
-	if (any_enemy_in_range && status.current_state != State::S_SPECIAL_ATTACK&&special_move_gauge->getIsMaxNum())
+	if (any_enemy_in_range && status.current_state != State::SPECIAL_ATTACK&&special_move_gauge->getIsMaxNum())
 	{
 		input->DrawRightTrigger(VAdd(status.pos, PlayerConfig::UI_POS_OFFSET));
 	}
@@ -193,29 +190,29 @@ void Player::UpdateFramePosition()
 	coll_cap_floor = { head_pos,status.pos,sphere_radius };
 }
 
-void Player::JudgeSpecialMove(const bool& cameraIsSpecialMoveEnd,const int&cameraInputKeyNum, const bool& is_special_range_hit)
+void Player::JudgeSpecialMove(const bool& cameraIsSpecialMoveEnd,const int&cameraInputKeyNum, const bool& isSpecialRangeHit)
 {
 	//tabキーを押下すると必殺技に移行
-	if ((input->IsTrigger(Command::TAB) || input->IsTrigger(Command::RT)) && is_special_range_hit&&special_move_gauge->getIsMaxNum()) {
-		if (status.current_state != State::S_SPECIAL_ATTACK) {
-			status.current_state = State::S_SPECIAL_ATTACK;
+	if ((input->IsTrigger(Command::TAB) || input->IsTrigger(Command::RT)) && isSpecialRangeHit&&special_move_gauge->getIsMaxNum()) {
+		if (status.current_state != State::SPECIAL_ATTACK) {
+			status.current_state = State::SPECIAL_ATTACK;
 			current_anim_state = AnimState::IDLE;
 			input->SetEnabled(false);
 			status.velocity = VGet(0.0f,0.0f,0.0f);
 		}
 	}
 
-	if ( status.current_state == State::S_SPECIAL_ATTACK) {
+	if ( status.current_state == State::SPECIAL_ATTACK) {
 		if (!cameraIsSpecialMoveEnd) {
 
-			if (cameraInputKeyNum == 1)current_movie_state = MovieState::M_SPECIAL_CAMERA;
-			if (cameraInputKeyNum == 2)current_movie_state = MovieState::M_SPECIAL_CAMERA2;
-			if (cameraInputKeyNum == 3)current_movie_state = MovieState::M_SPECIAL_CAMERA3;
-			if (cameraInputKeyNum == 4)current_movie_state = MovieState::M_SPECIAL_CAMERA4;
+			if (cameraInputKeyNum == 1)current_movie_state = MovieState::SPECIAL_CAMERA;
+			if (cameraInputKeyNum == 2)current_movie_state = MovieState::SPECIAL_CAMERA_2;
+			if (cameraInputKeyNum == 3)current_movie_state = MovieState::SPECIAL_CAMERA_3;
+			if (cameraInputKeyNum == 4)current_movie_state = MovieState::SPECIAL_CAMERA_4;
 		}
 		else {
 			if (current_anim_state != AnimState::SPECIAL_ATTACK) {
-				current_movie_state = MovieState::M_SPECIAL_MOVE;
+				current_movie_state = MovieState::SPECIAL_MOVE;
 				current_anim_state = AnimState::SPECIAL_ATTACK;
 				is_play_special_move = true;
 			}
@@ -223,9 +220,9 @@ void Player::JudgeSpecialMove(const bool& cameraIsSpecialMoveEnd,const int&camer
 			if (animation->getIsPlayEnd()) {
 				printfDx("special move end detected\n");
 				is_play_special_move = false;
-				status.current_state = State::S_IDLE;
+				status.current_state = State::IDLE;
 				current_anim_state = AnimState::IDLE;
-				current_movie_state = MovieState::M_NONE;
+				current_movie_state = MovieState::NONE;
 				input->SetEnabled(true);
 				special_move_gauge->Init(0.0f);
 			}
@@ -233,7 +230,7 @@ void Player::JudgeSpecialMove(const bool& cameraIsSpecialMoveEnd,const int&camer
 	}
 	else {
 		is_play_special_move = false;
-		current_movie_state = MovieState::M_NONE;
+		current_movie_state = MovieState::NONE;
 	}
 }
 
@@ -243,8 +240,8 @@ void Player::JudgeRun()
 	if ((input->IsPress(Command::W) || input->IsPress(Command::A) || input->IsPress(Command::S) || input->IsPress(Command::D) ||
 		std::abs(input->getLeftStick().x) > PlayerConfig::STICK_INPUT_THRESHOLD || std::abs(input->getLeftStick().y) > PlayerConfig::STICK_INPUT_THRESHOLD))
 	{
-		if (status.current_state==State::S_IDLE) {
-			status.current_state = State::S_RUN;
+		if (status.current_state==State::IDLE) {
+			status.current_state = State::RUN;
 			current_anim_state = AnimState::RUN;
 		}
 	}
@@ -254,14 +251,14 @@ void Player::JudgeKick()
 {
 	//左シフト入力時kickに移行
 	if (input->IsTrigger(Command::LSHIFT)|| input->IsTrigger(Command::BtnB)) {
-		if (status.current_state != State::S_JUMP && status.current_state != State::S_AIRDASH && status.current_state != State::S_ATTACK&&
-			status.current_state!=State::S_CARTWHEEL) {
-			status.current_state = State::S_KICK;
+		if (status.current_state != State::JUMP && status.current_state != State::AIRDASH && status.current_state != State::ATTACK&&
+			status.current_state!=State::CARTWHEEL) {
+			status.current_state = State::KICK;
 			current_anim_state = AnimState::KICK;
 		}
 	}
-	if (status.current_state == State::S_KICK && animation->getIsPlayEnd()) {
-		status.current_state = State::S_IDLE;
+	if (status.current_state == State::KICK && animation->getIsPlayEnd()) {
+		status.current_state = State::IDLE;
 		current_anim_state = AnimState::IDLE;
 	}
 }
@@ -273,7 +270,7 @@ void Player::JudgeRailCollision()
 	bool hit = collision->CapsuleToCapsule(capsule, capsule2);
 	if (hit) {
 		status.pos= collision->CapsuleSlider(capsule, capsule2, status.pos);
-		status.current_state = State::S_SKATE;
+		status.current_state = State::SKATE;
 		current_anim_state = AnimState::SKATE;
 	}
 }
@@ -297,7 +294,7 @@ void Player::ResolveCollision(const int& mapModelHandle, const std::vector<std::
 	JudgeRailCollision();
 	for (const auto& enemy_ptr : enemies) {
 		if (enemy_ptr == nullptr || !enemy_ptr->getIsAlive())continue;
-		if (enemy_ptr->getCurrentState() == State::S_ATTACK) {
+		if (enemy_ptr->getCurrentState() == State::ATTACK) {
 			this->JudgeAttackCollision(enemy_ptr->getBatonCollCapsule());
 		}
 	}
@@ -306,24 +303,24 @@ void Player::ResolveCollision(const int& mapModelHandle, const std::vector<std::
 void Player::UpdateGroundStatus()
 {
 	if (!status.is_touch_ground)return;
-	if (status.current_state == State::S_SPECIAL_ATTACK || is_play_special_move) return;
+	if (status.current_state == State::SPECIAL_ATTACK || is_play_special_move) return;
 
-	if (status.current_state == State::S_JUMP) {
-		status.current_state = State::S_IDLE;
+	if (status.current_state == State::JUMP) {
+		status.current_state = State::IDLE;
 	}
 	bool is_action = (
-		status.current_state == State::S_ATTACK ||
-		status.current_state == State::S_KICK ||
-		status.current_state == State::S_CARTWHEEL);
+		status.current_state == State::ATTACK ||
+		status.current_state == State::KICK ||
+		status.current_state == State::CARTWHEEL);
 
 	if (!is_action) {
 		float speed_xz = VSize(VGet(status.velocity.x, 0.0f, status.velocity.z));
 		if (speed_xz < 0.1f) {
-			status.current_state = State::S_IDLE;
+			status.current_state = State::IDLE;
 			current_anim_state = AnimState::IDLE;
 		}
 		else {
-			status.current_state = State::S_RUN;
+			status.current_state = State::RUN;
 			current_anim_state = AnimState::RUN;
 		}
 	}
@@ -370,21 +367,21 @@ void Player::ChangeBlendMode()
 	//player以外のオブジェクトの明暗を低くする
 	if (is_play_special_move) {
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, PlayerConfig::ALPHA);
-		DrawBox(0, 0, Config::ScreenWidth, Config::ScreenHeight, PlayerConfig::SPECIAL_MOVE_COLOR, true);
+		DrawBox(0, 0, Config::SCREEN_WIDTH, Config::SCREEN_HEIGHT, PlayerConfig::SPECIAL_MOVE_COLOR, true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-		DrawBox(0, 0, Config::ScreenWidth, 75, black, true);
-		DrawBox(0, 465, Config::ScreenWidth, Config::ScreenHeight, black, true);
+		DrawBox(0, 0, Config::SCREEN_WIDTH, 75, black, true);
+		DrawBox(0, 465, Config::SCREEN_WIDTH, Config::SCREEN_HEIGHT, black, true);
 	}
 	//ブレンドモードを通常状態に戻す
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
 
-void Player::JudgeAttackCollision(const Capsule& enemy_batton_cap)
+void Player::JudgeAttackCollision(const Capsule& enemyBattonCap)
 {
-	if (status.current_state == State::S_SPECIAL_ATTACK)return;
+	if (status.current_state == State::SPECIAL_ATTACK)return;
 	Capsule capsule = coll_cap;
-	Capsule capsule2 = enemy_batton_cap;
+	Capsule capsule2 = enemyBattonCap;
 	bool hit = collision->CapsuleToCapsule(capsule,capsule2);
 	if (hit) {
 		hp_gauge->SubNum(PlayerConfig::DAMAGE);
@@ -393,9 +390,9 @@ void Player::JudgeAttackCollision(const Capsule& enemy_batton_cap)
 
 
 void Player::HandleInput(const bool& cameraIsSpecialMoveEnd, const int& cameraInputKeyNum,
-	const std::vector<std::shared_ptr<ICharacter>>& enemies,float delta_time)
+	const std::vector<std::shared_ptr<ICharacter>>& enemies,float deltaTime)
 {
-	if (status.current_state == State::S_SPECIAL_ATTACK) {
+	if (status.current_state == State::SPECIAL_ATTACK) {
 		JudgeSpecialMove(cameraIsSpecialMoveEnd,cameraInputKeyNum, false);
 		return;
 	}
@@ -407,22 +404,22 @@ void Player::HandleInput(const bool& cameraIsSpecialMoveEnd, const int& cameraIn
 		}
 	}
 	JudgeSpecialMove(cameraIsSpecialMoveEnd, cameraInputKeyNum, can_trigger);
-	if (status.current_state == State::S_SPECIAL_ATTACK)return;
+	if (status.current_state == State::SPECIAL_ATTACK)return;
 
 	JudgeKick();
 
-	if (status.current_state == State::S_ATTACK ||
-		status.current_state == State::S_KICK ||
-		status.current_state == State::S_CARTWHEEL)return;
+	if (status.current_state == State::ATTACK ||
+		status.current_state == State::KICK ||
+		status.current_state == State::CARTWHEEL)return;
 
 	if (status.is_touch_ground) {
 		JudgeRun();
 	}
 }
 
-void Player::ApplyPhysics(float delta_time)
+void Player::ApplyPhysics(float deltaTime)
 {
-	float time_scale = delta_time * PlayerConfig::FPS;
+	float time_scale = deltaTime * PlayerConfig::FPS;
 	
 	if (!status.is_touch_ground) {
 		status.velocity.y -= Config::GRAVITY * time_scale;

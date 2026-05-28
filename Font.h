@@ -19,9 +19,9 @@ public:
 	~Font();
 
 	void Init();
-	void DrawFormatChar(int x, int y, const char*string, int font_size, int color);
-	void DrawFormatRank(int x, int y, char string, int font_size, int color);
-	void DrawFormatNum(int x, int y, const float num, int font_size, int color);
+	void DrawFormatChar(int x, int y, const char*string, int fontSize, int color);
+	void DrawFormatRank(int x, int y, char string, int fontSize, int color);
+	void DrawFormatNum(int x, int y, const float num, int fontSize, int color);
 	void Delete();
 };
 

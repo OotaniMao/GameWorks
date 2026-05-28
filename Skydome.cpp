@@ -18,7 +18,7 @@ void Skydome::Update(std::shared_ptr<ICamera>camera)
 	MATRIX matrix = MGetRotY(0);
 	pos = camera->getCurrentCameraPos();
 	matrix = MMult(matrix,MGetScale(VGet(scale_size, scale_size, scale_size)));
-	setModelMatrix(pos, matrix);
+	SetModelMatrix(pos, matrix);
 }
 
 

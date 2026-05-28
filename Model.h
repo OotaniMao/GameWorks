@@ -10,19 +10,19 @@ protected:
 
 public:
 	//コンストラクタ
-	Model(const char* FileName);
+	Model(const char* fileName);
 	//デストラクタ
 	virtual ~Model();
 
-	MATRIX getFramePos(int frame_index);
-	VECTOR getLocalFramePos(int frame_index);
+	MATRIX getFramePos(int frameIndex);
+	VECTOR getLocalFramePos(int frameIndex);
 	int getTextureNum();
-	int SearchFrame(const char*frame_name);
+	int SearchFrame(const char*frameName);
 
 	void Init();
 	void DrawModel();	//モデルの描画
-	void setModelMatrix(VECTOR pos, MATRIX rotate);
-	void setFrameLocalMatrix(int frame_index);
-	void resetFrameLocalMatrix(int frame_index);
+	void SetModelMatrix(VECTOR pos, MATRIX rotate);
+	void SetFrameLocalMatrix(int frameIndex);
+	void ResetFrameLocalMatrix(int frameIndex);
 
 };

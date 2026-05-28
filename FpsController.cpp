@@ -1,5 +1,5 @@
-#include "FpsController.h"
 #include"DxLib.h"
+#include "FpsController.h"
 //#define DEBUG
 
 FpsController::FpsController()

@@ -19,7 +19,7 @@ class Sound
 private:
 	std::array<int, static_cast<int>(SoundEffect::COUNT)> se_handle{};
 	std::array<int, static_cast<int>(SoundBGM::COUNT)> bgm_handle{};
-	int current_bgm = -1;
+	int current_bgm;
 	int bgm_volume;
 	int se_volume;
 public:

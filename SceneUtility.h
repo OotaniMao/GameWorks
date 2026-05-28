@@ -25,7 +25,7 @@ struct GameContext {
 class SceneUtility
 {
 public:
-	static void UpdateMenuSelection(bool& is_press_button, const std::shared_ptr<IInput>key, int& select_index, int max_count, std::shared_ptr<Sound>sound);
-	static void DrawMenuItems(const MenuItem* items, int count, int selected_index, std::shared_ptr<Font> font);
+	static void UpdateMenuSelection(bool& isPressButton, const std::shared_ptr<IInput>key, int& selectIndex, int maxCount, std::shared_ptr<Sound>sound);
+	static void DrawMenuItems(const MenuItem* items, int count, int selectedIndex, std::shared_ptr<Font> font);
 	static void DrawDemoPlayMovie(std::shared_ptr<Movie>movie);
 };

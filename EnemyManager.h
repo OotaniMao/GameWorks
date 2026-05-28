@@ -4,7 +4,6 @@
 class Enemy;
 class Player;
 class Collision;
-//class Effect;
 class ICharacter;
 
 struct SpawnPoint {
@@ -34,10 +33,10 @@ public:
 	const std::vector<std::shared_ptr<ICharacter>>& getEnemies() const { return enemies; }
 
 	void Init();
-	void Update(const Player& player, Collision& collision, const float& deltaTime/*, const Effect& effect*/,const int&mapModelHandle);
+	void Update(const Player& player, Collision& collision, const float& deltaTime,const int&mapModelHandle);
 	void Draw();
-	void AddSpawnPoint(VECTOR center, float radius, int max_num);
-	void CheckSpawnPoints(const VECTOR& playerPos, const float delta_time);
+	void AddSpawnPoint(VECTOR center, float radius, int maxNum);
+	void CheckSpawnPoints(const VECTOR& playerPos, const float deltaTime);
 	bool IsCharacterWithInRange(const VECTOR& playerPos, const VECTOR& center, const float& radius);
 	void ExecuteSpawning(const SpawnPoint& sp);
 	void UpdateSpawnCoolTime(SpawnPoint& sp, const float& deltaTime);

@@ -4,14 +4,14 @@
 #include"Font.h"
 //#define DEBUG
 
-const int MAX_TIME = 100;
 
 namespace TimeConfig
 {
-	float clock_w = 30.0f;
-	float clock_h = 30.0f;
-	float clock_cx = 395.0f;
-	float clock_cy = 45.0f;
+	const float clock_w = 30.0f;
+	const float clock_h = 30.0f;
+	const float clock_cx = 395.0f;
+	const float clock_cy = 45.0f;
+	const int MAX_TIME = 100;
 
 }
 
@@ -22,9 +22,9 @@ Time::Time()
 	,prev_time(0)
 	,start_time(0)
 	,count(0)
-	,max_time(MAX_TIME)
+	,max_time(TimeConfig::MAX_TIME)
 	,brink_count(0)
-	,time_limit(MAX_TIME)
+	,time_limit(TimeConfig::MAX_TIME)
 {
 	Init();
 	handle_bar = LoadGraph("graph/time_bar.png");
@@ -55,12 +55,12 @@ void Time::Start()
 {
 	current_time = GetNowCount();
 	start_time = GetNowCount();
-	max_time = MAX_TIME;
+	max_time = TimeConfig::MAX_TIME;
 }
 
 void Time::Count(float &timeScale,const Player&player)
 {
-	if (player.getCurrentState()==State::S_SPECIAL_ATTACK) {
+	if (player.getCurrentState()==State::SPECIAL_ATTACK) {
 		start_time = GetNowCount() - current_time;
 		return;
 	}

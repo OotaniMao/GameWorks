@@ -25,9 +25,6 @@
     <Filter Include="ソース ファイル\Collision">
       <UniqueIdentifier>{9a7c9eee-6adc-4367-add6-368bde482d9b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Effect">
-      <UniqueIdentifier>{f3d9cbe0-f6aa-424d-addf-5df8805cad5e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Skydome">
       <UniqueIdentifier>{f10cc115-0f27-4caa-b3b5-446e86d35019}</UniqueIdentifier>
     </Filter>
@@ -105,9 +102,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="FpsController.cpp">
       <Filter>ソース ファイル\FpsController</Filter>
     </ClCompile>
@@ -119,9 +113,6 @@
     </ClCompile>
     <ClCompile Include="Collision.cpp">
       <Filter>ソース ファイル\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Effect.cpp">
-      <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>ソース ファイル\Character\Enemy</Filter>
@@ -192,7 +183,7 @@
     <ClCompile Include="GameMain.cpp">
       <Filter>ソース ファイル\Scene\GameMain</Filter>
     </ClCompile>
-    <ClCompile Include="main_2.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -208,9 +199,6 @@
     </ClInclude>
     <ClInclude Include="Collision.h">
       <Filter>ソース ファイル\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Effect.h">
-      <Filter>ソース ファイル\Effect</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>ソース ファイル\Character\Enemy</Filter>

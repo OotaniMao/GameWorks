@@ -5,12 +5,13 @@
 #include"Player.h"
 //#define DEBUG
 
-namespace {
+namespace GoalConfig{
 	const VECTOR INITIAL_GOAL_POS = VGet(-7368.0f, 0.0f, 13947.0f);
 	const float ARROW_DISTANCE = 150.0f;
 	const float ARROW_SIZE = 150.0f;
 	const float ARROW_HEIGHT = 150.0f;
 	const float EPSILON = 0.0001f;//ゼロ除算防止用
+	static constexpr float GOAL_RADIUS = 300.0f;
 }
 
 
@@ -18,7 +19,7 @@ Goal::Goal()
 	:is_goal(false),
 	graph_handle(-1)
 {
-	sphere.radius = GOAL_RADIUS;
+	sphere.radius = GoalConfig::GOAL_RADIUS;
 	graph_handle = LoadGraph("graph/arrow_red.png");
 
 	//頂点の基本情報(色・法線・UV)を初期化
@@ -49,7 +50,7 @@ void Goal::InitIndex()
 
 void  Goal::InitPos()
 {
-	sphere.pos = INITIAL_GOAL_POS;
+	sphere.pos = GoalConfig::INITIAL_GOAL_POS;
 }
 
 void Goal::Init()
@@ -68,15 +69,15 @@ void Goal::Update(const Player& player)
 	VECTOR to_goal = VSub(sphere.pos, player.getPos());
 
 	//playerがgoalに重なりすぎている場合はデフォルト方向
-	if (VSize(to_goal) > EPSILON)to_goal = VNorm(to_goal);
+	if (VSize(to_goal) > GoalConfig::EPSILON)to_goal = VNorm(to_goal);
 	else to_goal = VGet(0.0f,0.0f,1.0f);
 
 	//画像の配置座標（playerの前方の空中）計算
-	VECTOR arrow_pos = VAdd(player.getPos(), VScale(to_goal,ARROW_DISTANCE));
-	arrow_pos.y = ARROW_HEIGHT;
+	VECTOR arrow_pos = VAdd(player.getPos(), VScale(to_goal, GoalConfig::ARROW_DISTANCE));
+	arrow_pos.y = GoalConfig::ARROW_HEIGHT;
 	
 	//頂点計算(ビルボード＋回転)
-	UpdateSquareVertex(arrow_pos, ARROW_SIZE,to_goal);
+	UpdateSquareVertex(arrow_pos, GoalConfig::ARROW_SIZE,to_goal);
 
 
 #ifdef DEBUG
@@ -85,7 +86,7 @@ void Goal::Update(const Player& player)
 
 }
 
-void Goal::UpdateSquareVertex(const VECTOR& center,float size,VECTOR to_goal)
+void Goal::UpdateSquareVertex(const VECTOR& center,float size,VECTOR toGoal)
 {
 	float h = size * 0.5f;
 	//ビルボードの基本形状
@@ -99,7 +100,7 @@ void Goal::UpdateSquareVertex(const VECTOR& center,float size,VECTOR to_goal)
 	//ビルボード行列を取得(ビュー行列の回転成分を反転させたもの)
 	MATRIX inv_view = MTranspose(GetCameraViewMatrix());
 	//スクリーン上での向き(ゴール方向)ベクトルを計算
-	VECTOR camera_space_dir = VTransformSR(to_goal,GetCameraViewMatrix());
+	VECTOR camera_space_dir = VTransformSR(toGoal,GetCameraViewMatrix());
 	//スクリーン上での右と上の成分から、2D的な回転角を出す
 	float z_angle = atan2f(camera_space_dir.y,camera_space_dir.x);
 	//矢印を回して(z軸回転)から、カメラ(ビルボード回転)に向ける

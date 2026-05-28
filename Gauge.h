@@ -11,21 +11,21 @@ private:
 	Square square;
 
 public:
-	Gauge(float max_hp, float current_hp, const Square& square_ptr);
+	Gauge(float maxHp, float currentHp, const Square& squarePtr);
 	~Gauge();
 
 	float getCurrentNum()const { return current_num; }
 	bool getIsMaxNum()const { return max_num==current_num?true:false; }
 
 	/// @brief ‰Šú‰»
-	void Init(float max_hp);
+	void Init(float maxHp);
 
 	void DrawGauge_3d(const VECTOR& pos, const int& red = 255, const int& green = 255, const int& blue = 255);
 	void DrawGauge_2d(const int& red = 255, const int& green = 255, const int& blue = 255);
 	/// @brief ’l‚ğŒ¸‚ç‚·
 	/// @param  num@Œ¸‚ç‚·”
 	void SubNum(float num);
-	void Update(float charge_speed=0.0f);
+	void Update(float chargeSpeed=0.0f);
 private:
 	float CalculateRate();
 	float CalculateRightPosition(const float& referencePointX, const float& width);

@@ -1,7 +1,7 @@
 #pragma once
 
-const class Font;
-const class Player;
+class Font;
+class Player;
 
 class Time
 {
@@ -21,8 +21,7 @@ private:
 public:
 	Time();
 
-	float GetTimeCount()const { return prev_time; }
-	float GetTimeLimit()const { return time_limit; }
+	float getTimeLimit()const { return time_limit; }
 
 	void Init();
 

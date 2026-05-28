@@ -13,7 +13,6 @@ Baton::Baton()
 	coll_cap(),
 	fold_index(-1)
 {
-	
 	fold_index = SearchFrame("folding bit.001");
 	top_index = SearchFrame("folding bit");
 }
@@ -50,7 +49,7 @@ void Baton::Update(const VECTOR &handPos, const VECTOR& enemyRotAngle)
 	matrix = MMult(matrix, MGetRotX(DX_PI_F));
 	matrix = MMult(matrix, rotate);
 
-	setModelMatrix(pos, matrix);
+	SetModelMatrix(pos, matrix);
 
 	VECTOR update_fold_pos = getLocalFramePos(fold_index);
 	//capsuleç¿ïWÇÃçXêV

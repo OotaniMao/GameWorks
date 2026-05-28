@@ -2,11 +2,6 @@
 #include "Map.h"
 #include"Player.h"
 
-/*
-ポリゴンの描画の参考
-https://qiita.com/0reo07/items/f2424069412b97a02848
-*/
-
 
 Map::Map()
 	:Model("model/map/map.mv1")
@@ -45,11 +40,11 @@ void Map::DrawMesh()
 	}
 }
 
-float Map::GetFloorHeight(VECTOR target_pos) const
+float Map::GetFloorHeight(VECTOR targetPos) const
 {
 	//ターゲット座標の少し上から下まで十分に線分を引く
-	VECTOR start = VAdd(target_pos,VGet(0.0f,500.0f,0.0f));
-	VECTOR end = VAdd(target_pos,VGet(0.0f,-1000.0f,0.0f));
+	VECTOR start = VAdd(targetPos,VGet(0.0f,500.0f,0.0f));
+	VECTOR end = VAdd(targetPos,VGet(0.0f,-1000.0f,0.0f));
 	//マップモデルと線分の当たり判定
 	MV1_COLL_RESULT_POLY hit = MV1CollCheck_Line(model_handle,-1,start,end);
 

@@ -3,13 +3,13 @@
 #include<deque>
 
 enum MovieState :int {
-	M_NONE=-1,
-	M_SPECIAL_MOVE=0,
-	M_SPECIAL_CAMERA=1,
-	M_SPECIAL_CAMERA2=2,
-	M_SPECIAL_CAMERA3=3,
-	M_SPECIAL_CAMERA4=4,
-	M_TITLE = 5,
+	NONE=-1,
+	SPECIAL_MOVE=0,
+	SPECIAL_CAMERA=1,
+	SPECIAL_CAMERA_2=2,
+	SPECIAL_CAMERA_3=3,
+	SPECIAL_CAMERA_4=4,
+	TITLE = 5,
 };
 
 typedef struct MovieElement{
@@ -39,13 +39,13 @@ public:
 	~Movie();//デストラクタ
 
 	void Init();
-	void Load(const int& movie_state,const char*file_name,bool is_movie_loop,bool is_chroma);
-	void PlayMovie(MovieState movie_state);
-	void Setting(const MovieState& curr_state);
+	void Load(const int& movieState,const char*fileName,bool isMovieLoop,bool isChroma);
+	void PlayMovie(MovieState movieState);
+	void Setting(const MovieState& currState);
 	/// @brief 動画の再生
 	void Play();
 	/// @brief 更新処理
-	void Update(const int& curr_state);
+	void Update(const int& currState);
 	/// @brief 疑似クロマキー
 	/// @brief 必ずPlayの前に置くこと
 	/// @brief 今回は黄色だけを抽出

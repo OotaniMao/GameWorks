@@ -3,8 +3,6 @@
 class FpsController
 {
 private:
-
-
 	const int TARGET_FPS = 60;  // 固定するFPS（ここでは60FPSに設定）
 	const int FRAME_TIME = 1000 / TARGET_FPS;  // 1フレームの時間（ミリ秒）
 	

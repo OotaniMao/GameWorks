@@ -6,34 +6,34 @@
 #include"Font.h"
 #include"Movie.h"
 
-void SceneUtility::UpdateMenuSelection(bool& is_press_button, const std::shared_ptr<IInput> key, int& select_index, int max_count, std::shared_ptr<Sound> sound)
+void SceneUtility::UpdateMenuSelection(bool& isPressButton, const std::shared_ptr<IInput> key, int& selectIndex, int maxCount, std::shared_ptr<Sound> sound)
 {
 	float stickY = key->getLeftStick().y;
-	bool up = (stickY > Config::StickThreshold) || key->IsTrigger(Command::BtnUP) || key->IsTrigger(Command::UP);
-	bool down = (stickY < -Config::StickThreshold) || key->IsTrigger(Command::BtnDOWN) || key->IsTrigger(Command::DOWN);
+	bool up = (stickY > Config::STICK_THRESHOLD) || key->IsTrigger(Command::BtnUP) || key->IsTrigger(Command::UP);
+	bool down = (stickY < -Config::STICK_THRESHOLD) || key->IsTrigger(Command::BtnDOWN) || key->IsTrigger(Command::DOWN);
 
-	if ((up || down) && !is_press_button) {
-		if (up)select_index = (select_index - 1 + max_count) % max_count;
-		if (down)select_index = (select_index + 1 + max_count) % max_count;
-		is_press_button = true;
+	if ((up || down) && !isPressButton) {
+		if (up)selectIndex = (selectIndex - 1 + maxCount) % maxCount;
+		if (down)selectIndex = (selectIndex + 1 + maxCount) % maxCount;
+		isPressButton = true;
 		sound->PlaySE(SoundEffect::SELECT);
 	}
 	//“ü—Í‚È‚µ
-	else if (std::abs(stickY) <= Config::StickThreshold) {
-		is_press_button = false;
+	else if (std::abs(stickY) <= Config::STICK_THRESHOLD) {
+		isPressButton = false;
 	}
 }
 
-void SceneUtility::DrawMenuItems(const MenuItem* items, int count, int selected_index, std::shared_ptr<Font> font)
+void SceneUtility::DrawMenuItems(const MenuItem* items, int count, int selectedIndex, std::shared_ptr<Font> font)
 {
 	for (int i = 0; i < count; i++) {
-		bool is_active = (selected_index == i);
+		bool is_active = (selectedIndex == i);
 		font->DrawFormatChar(
-			Config::MenuLeftX,
-			Config::TitleTextY + items[i].y_offset,
+			Config::MENU_LEFT_X,
+			Config::TITLE_TEXT_Y + items[i].y_offset,
 			is_active ? items[i].active_txt : items[i].nomal_txt,
 			static_cast<int>(FontSize::GAGA_Size_30),
-			is_active ? Config::ColorOrange : Config::ColorWhite
+			is_active ? Config::COLOR_ORANGE : Config::COLOR_WHITE
 		);
 	}
 }
@@ -41,7 +41,7 @@ void SceneUtility::DrawMenuItems(const MenuItem* items, int count, int selected_
 void SceneUtility::DrawDemoPlayMovie(std::shared_ptr<Movie> movie)
 {
 	int black = GetColor(0, 0, 0);
-	movie->Update(static_cast<int>(MovieState::M_TITLE));
+	movie->Update(static_cast<int>(MovieState::TITLE));
 	movie->Play();
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 80);
 	DrawBox(0, 0, 960, 540, black, true);

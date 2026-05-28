@@ -19,7 +19,7 @@ class Player:public ICharacter
 {
 public:
 	
-	Player(std::shared_ptr<Collision>& coll, std::shared_ptr<Gauge>& sp_moive_gauge,std::shared_ptr<IInput>& input_ptr,std::shared_ptr<ICamera>&camera_ptr);		//コンストラクタ
+	Player(std::shared_ptr<Collision>& coll, std::shared_ptr<Gauge>& spMovieGauge,std::shared_ptr<IInput>& inputPtr,std::shared_ptr<ICamera>&cameraPtr);		//コンストラクタ
 	~Player() = default;
 
 	//ゲッター
@@ -54,9 +54,9 @@ public:
 	VECTOR		getHipsPos()			const { return hips_pos; }
 
 	//セッター
-	void setPos(const VECTOR& _new_pos) { status.pos = _new_pos; }
-	void setVelocity(const VECTOR& _new_velocity) { status.velocity = _new_velocity; }
-	void setIsTouchGround(bool _ground) { status.is_touch_ground = _ground; }
+	void setPos(const VECTOR& newPos) { status.pos = newPos; }
+	void setVelocity(const VECTOR& newVelocity) { status.velocity = newVelocity; }
+	void setIsTouchGround(bool ground) { status.is_touch_ground = ground; }
 
 	/// @brief 初期化
 	void Init();
@@ -79,7 +79,7 @@ private:
 	struct Status {
 		VECTOR pos=VGet(0.0f,0.0f,0.0f);					//player位置
 		VECTOR velocity;
-		State current_state=State::S_IDLE;		//現在のplayerの状態
+		State current_state=State::IDLE;		//現在のplayerの状態
 		AnimState anim_state;
 		bool is_touch_ground=false;		//接地しているかどうか
 	}status;
@@ -122,7 +122,7 @@ private:
 	void UpdateFramePosition();
 
 	/// @brief 必殺技関連
-	void JudgeSpecialMove(const bool& cameraIsSpecialMoveEnd, const int& cameraInputKeyNum,const bool& is_special_range_hit);
+	void JudgeSpecialMove(const bool& cameraIsSpecialMoveEnd, const int& cameraInputKeyNum,const bool& isSpecialRangeHit);
 	/// @brief 走るanimationへ移行するかどうか 
 	void JudgeRun();
 	/// @brief 蹴るanimationへ移行するかどうか 
@@ -132,13 +132,13 @@ private:
 	/// @brief 必殺技時にblendモードを変更する
 	void ChangeBlendMode();
 	/// @brief 攻撃が当たったかどうかの処理
-	void JudgeAttackCollision(const Capsule& enemy_batton_cap);
+	void JudgeAttackCollision(const Capsule& enemyBattonCap);
 	/// @brief レールとの衝突判定処理
 	void JudgeRailCollision();
 	void ResolveCollision(const int&mapModelHandle,const std::vector<std::shared_ptr<ICharacter>>& enemies);
 	void UpdateGroundStatus();
-	void HandleInput(const bool& cameraIsSpecialMoveEnd, const int& cameraInputKeyNum,const std::vector<std::shared_ptr<ICharacter>>& enemies, float delta_time);
-	void ApplyPhysics(float delta_time);
+	void HandleInput(const bool& cameraIsSpecialMoveEnd, const int& cameraInputKeyNum,const std::vector<std::shared_ptr<ICharacter>>& enemies, float deltaTime);
+	void ApplyPhysics(float deltaTime);
 
 	void UpdateHpGaugeColor();
 	

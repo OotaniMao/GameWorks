@@ -39,8 +39,6 @@ private:
 	Stick left_stick;
 	Stick right_stick;
 
-	int handle_tab = -1;
-	int handle_RT = -1;
-
-	static constexpr int STICK_DEADZONE = 20000;
+	int handle_tab;
+	int handle_RT;
 };

@@ -17,7 +17,7 @@ public:
 
 	void Draw();
 	void DrawMesh();
-	float GetFloorHeight(VECTOR target_pos)const;
+	float GetFloorHeight(VECTOR targetPos)const;
 	bool CheckHitWall(const Sphere& sphere) const;
 
 };

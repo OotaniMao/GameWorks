@@ -17,7 +17,7 @@
 Movie::Movie()
 	:width(960),
 	height(540),
-	current_state(MovieState::M_NONE),
+	current_state(MovieState::NONE),
 	total_frame(0),
 	is_play_end(false)
 {
@@ -45,42 +45,42 @@ Movie::~Movie()
 
 void Movie::Init()
 {
-	Load(static_cast<int>(MovieState::M_SPECIAL_MOVE), "movie/Smoke5.mp4", false, true);
-	Load(static_cast<int>(MovieState::M_SPECIAL_CAMERA), "movie/Smoke3.mp4", false, true);
-	Load(static_cast<int>(MovieState::M_SPECIAL_CAMERA2), "movie/Ink3.mp4", false, true);
-	Load(static_cast<int>(MovieState::M_SPECIAL_CAMERA3), "movie/Ink2.mp4", false, true);
-	Load(static_cast<int>(MovieState::M_SPECIAL_CAMERA4), "movie/Smoke2.mp4", false, true);
-	Load(static_cast<int>(MovieState::M_TITLE), "movie/TitleMovie.mp4", true, false);
+	Load(static_cast<int>(MovieState::SPECIAL_MOVE), "movie/Smoke5.mp4", false, true);
+	Load(static_cast<int>(MovieState::SPECIAL_CAMERA), "movie/Smoke3.mp4", false, true);
+	Load(static_cast<int>(MovieState::SPECIAL_CAMERA_2), "movie/Ink3.mp4", false, true);
+	Load(static_cast<int>(MovieState::SPECIAL_CAMERA_3), "movie/Ink2.mp4", false, true);
+	Load(static_cast<int>(MovieState::SPECIAL_CAMERA_4), "movie/Smoke2.mp4", false, true);
+	Load(static_cast<int>(MovieState::TITLE), "movie/TitleMovie.mp4", true, false);
 }
 
-void Movie::Load(const int& movie_state, const char* file_name, bool is_movie_loop, bool is_chroma)
+void Movie::Load(const int& movieState, const char* fileName, bool isMovieLoop, bool isChroma)
 {
-	movie_handle[movie_state] = { LoadGraph(file_name),is_movie_loop,is_chroma };
+	movie_handle[movieState] = { LoadGraph(fileName),isMovieLoop,isChroma };
 }
 
-void Movie::PlayMovie(MovieState movie_state)
+void Movie::PlayMovie(MovieState movieState)
 {
-	auto& elem = movie_handle[movie_state];
+	auto& elem = movie_handle[movieState];
 	PlayMovieToGraph(elem.handle,elem.is_loop? DX_PLAYTYPE_LOOP:DX_PLAYTYPE_NORMAL, FALSE);
 }
 
-void Movie::Setting(const MovieState&curr_state)
+void Movie::Setting(const MovieState&currState)
 {
-	auto itr = movie_handle.find(curr_state);
+	auto itr = movie_handle.find(currState);
 	if (itr == movie_handle.end() || itr->second.handle == -1) {
-		printfDx("No movie handle found for state:%d\n",(int)curr_state);
+		printfDx("No movie handle found for state:%d\n",(int)currState);
 		return;
 	}
 
 	//再生リストをクリアして現在の状態を追加
 	play_index.clear();
-	play_index.push_back(curr_state);
+	play_index.push_back(currState);
 	int current_frame = TellMovieToGraphToFrame(itr->second.handle);
 	//動画を先頭フレームに移動
 	SeekMovieToGraphToFrame(itr->second.handle,0);
 	current_frame = TellMovieToGraphToFrame(itr->second.handle);
 	//再生開始
-	PlayMovie(curr_state);
+	PlayMovie(currState);
 	current_frame = TellMovieToGraphToFrame(itr->second.handle);
 	//フレーム数を取得
 	is_play_end = false;
@@ -105,11 +105,11 @@ void Movie::Play()
 	}
 }
 
-void Movie::Update(const int&curr_state)
+void Movie::Update(const int&currState)
 {
 	previous_state = current_state;
-	current_state = static_cast<MovieState>(curr_state);
-	if (current_state == MovieState::M_NONE)return;
+	current_state = static_cast<MovieState>(currState);
+	if (current_state == MovieState::NONE)return;
 	if (current_state != previous_state) {
 		Setting(current_state);
 	}

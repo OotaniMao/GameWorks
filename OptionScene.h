@@ -4,10 +4,10 @@
 #include"SceneUtility.h"
 
 enum class OptionMenu :int {
-	OPTION_BGM,
-	OPTION_SE,
-	OPTION_BUCK,
-	OPTION_MAX
+	BGM,
+	SE,
+	BUCK,
+	MAX
 };
 
 const MenuItem OptionMenuItems[] = {
@@ -33,7 +33,7 @@ public:
 	void Update()override;
 	void Draw()override;
 
-	std::unique_ptr<ISceneBase>GetNextScene()override;
+	std::unique_ptr<ISceneBase>getNextScene()override;
 private:
 	int select_option_menu;
 	MoveDirection dir;

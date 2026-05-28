@@ -1,7 +1,7 @@
 #pragma once
 #include"Model.h"
 
-const class Camera;
+class Camera;
 
 class Skydome :public Model
 {

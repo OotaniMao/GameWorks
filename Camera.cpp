@@ -1,14 +1,12 @@
 #include"DxLib.h"
-//#include"EffekseerForDXLib.h"
 #include"InputInterface.h"
 #include"Player.h"
 #include"Collision.h"
 #include"Camera.h"
-using namespace R_Math;
 //#define DEBUG
 
 
-Camera::Camera(std::shared_ptr<IInput>&input_key)
+Camera::Camera(std::shared_ptr<IInput>&inputKey)
 	:camera_pos(VGet(0.0f, 200.0f, -350.0f))
 	, target_pos(VGet(0.0f, 100.0f, 0.0f))
 	, move_speed(10.0f)
@@ -24,7 +22,7 @@ Camera::Camera(std::shared_ptr<IInput>&input_key)
 	input_key_num(0)
 	
 {
-	input = input_key;
+	input = inputKey;
 	SetCameraNearFar(10.0f, 35000.0f);
 	for (auto i = 0; i < INPUT_KEY_NUM; i++) {
 		is_input_key[i] = false;
@@ -83,19 +81,19 @@ void Camera::Update(const Player& player, float timeScale)
 		break;
 	}
 	static Collision collision;
-	if (player.getCurrentState() == State::S_CARTWHEEL) {
-		current_target_pos = Lerp(current_target_pos, VAdd(player.getHipsPos(), VSub(target_pos, VGet(0.0f, 100.0f, 0.0f))), 0.2f);
-		current_camera_pos = Lerp(current_camera_pos, VAdd(player.getHipsPos(), VSub(camera_pos, VGet(0.0f, 100.0f, 0.0f))), 0.08f);
+	if (player.getCurrentState() == State::CARTWHEEL) {
+		current_target_pos = R_Math::Lerp(current_target_pos, VAdd(player.getHipsPos(), VSub(target_pos, VGet(0.0f, 100.0f, 0.0f))), 0.2f);
+		current_camera_pos = R_Math::Lerp(current_camera_pos, VAdd(player.getHipsPos(), VSub(camera_pos, VGet(0.0f, 100.0f, 0.0f))), 0.08f);
 	}
 	else {
-		current_target_pos = Lerp(current_target_pos, VAdd(player.getPos(), target_pos), 0.2f);
-		current_camera_pos = Lerp(current_camera_pos, VAdd(player.getPos(), camera_pos), 0.08f);
+		current_target_pos = R_Math::Lerp(current_target_pos, VAdd(player.getPos(), target_pos), 0.2f);
+		current_camera_pos = R_Math::Lerp(current_camera_pos, VAdd(player.getPos(), camera_pos), 0.08f);
 	}
 	//ƒJƒƒ‰‚É”½‰f
 	SetCameraPositionAndTarget_UpVecY(current_camera_pos, current_target_pos);
 }
 
-void Camera::NormalMove(float timeScale,const State&player_state)
+void Camera::NormalMove(float timeScale,const State&playerState)
 {
 	//‰ñ“]Šp“x—ps—ñ
 	MATRIX matrix;
@@ -131,7 +129,7 @@ void Camera::NormalMove(float timeScale,const State&player_state)
 		camera_pos = VTransform(camera_pos, matrix);
 	}
 
-	if (player_state==State::S_SPECIAL_ATTACK) {
+	if (playerState==State::SPECIAL_ATTACK) {
 		current_state = CameraState::SPECIAL;
 	}
 	else {

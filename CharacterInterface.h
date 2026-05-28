@@ -4,18 +4,18 @@
 
 
 enum class State :int {
-	S_NONE = -1,	//なし
-	S_IDLE,		//待機
-	S_JUMP,		//ジャンプ 
-	S_ATTACK,	//殴る
-	S_KICK,		//蹴る
-	S_RUN,		//走る
-	S_SPECIAL_ATTACK,	//必殺技
-	S_DOWN,		//ダウン
-	S_AIRDASH,	//エアダッシュ
-	S_CARTWHEEL,	//側転
-	S_SKATE,//滑る
-	S_IMPACT,//攻撃をくらったとき
+	NONE = -1,	//なし
+	IDLE,		//待機
+	JUMP,		//ジャンプ 
+	ATTACK,	//殴る
+	KICK,		//蹴る
+	RUN,		//走る
+	SPECIAL_ATTACK,	//必殺技
+	DOWN,		//ダウン
+	AIRDASH,	//エアダッシュ
+	CARTWHEEL,	//側転
+	SKATE,//滑る
+	IMPACT,//攻撃をくらったとき
 };
 
 class ICharacter
