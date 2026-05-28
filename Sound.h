@@ -32,8 +32,8 @@ public:
 	int getBgmVolume()const { return bgm_volume; }
 	int getSeVolume()const { return se_volume; }
 
-	void PlaySE( SoundEffect sound_id);
-	void PlayBGM( SoundBGM sound_id);
+	void PlaySE(SoundEffect soundId);
+	void PlayBGM(SoundBGM soundId);
 	void SetBGMVolume(int volume);
 	void SetSEVolume(int volume);
 	void StopBGM();

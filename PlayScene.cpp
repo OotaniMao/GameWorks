@@ -85,7 +85,7 @@ void PlayScene::Update()
 void PlayScene::Draw()
 {
 	skydome->Draw();
-	shadowMap->DrawSetUP_Chara(*player, *enemies);
+	shadowMap->DrawSetUPCharacter(*player, *enemies);
 	shadowMap->SetUse(*player, *enemies, *map);
 	goal->Draw();
 	time->Draw(*ctx->font);

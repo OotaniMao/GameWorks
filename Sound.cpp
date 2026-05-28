@@ -1,5 +1,7 @@
 #include"DxLib.h"
+#include"R_Math.h"
 #include "Sound.h"
+#define DEBUG
 
 Sound::Sound()
 	:se_volume(100),
@@ -29,9 +31,9 @@ void Sound::Init()
 }
 
 
-void Sound::PlaySE( SoundEffect sound_id)
+void Sound::PlaySE( SoundEffect soundId)
 {
-	int id = static_cast<int>(sound_id);
+	int id = static_cast<int>(soundId);
 	int handle = se_handle[id];
 	if (handle < 0)return;
 	ChangeVolumeSoundMem(se_volume * 255 / 100, handle);
@@ -39,9 +41,9 @@ void Sound::PlaySE( SoundEffect sound_id)
 	
 }
 
-void Sound::PlayBGM( SoundBGM sound_id)
+void Sound::PlayBGM( SoundBGM soundId)
 {
-	int id = static_cast<int>(sound_id);
+	int id = static_cast<int>(soundId);
 	int handle = bgm_handle[id];
 	if (handle < 0)return;
 	if (current_bgm == handle) return;
@@ -51,27 +53,15 @@ void Sound::PlayBGM( SoundBGM sound_id)
 	PlaySoundMem(handle, DX_PLAYTYPE_LOOP);
 }
 
-int ClampNum(int min, int max, int num)
-{
-	int ans = num;
-	if (min > num) {
-		ans = min;
-	}
-	else if (num > max) {
-		ans = max;
-	}
-	return ans;
-}
-
 void Sound::SetBGMVolume(int volume)
 {
-	bgm_volume = ClampNum(0, 100, volume);
+	bgm_volume = R_Math::Clamp(0, 100, volume);
 	if (current_bgm >= 0)ChangeVolumeSoundMem(bgm_volume*255/100,current_bgm);
 }
 
 void Sound::SetSEVolume(int volume)
 {
-	se_volume = ClampNum(0, 100, volume);
+	se_volume = R_Math::Clamp(0, 100, volume);
 }
 
 void Sound::StopBGM()
@@ -84,5 +74,8 @@ void Sound::StopBGM()
 
 void Sound::DrawDebug() const
 {
-	//printfDx("se_volume=%d,dxvol=%d\n", se_volume, se_volume * 255 / 100);
+#ifdef DEBUG
+	printfDx("se_volume=%d,dxvol=%d\n", se_volume, se_volume * 255 / 100);
+#endif // DEBUG
+
 }

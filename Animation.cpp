@@ -2,8 +2,13 @@
 #include"Model.h"
 #include"Animation.h"
 
-namespace {
+namespace AnimConfig{
 	const float DEFAULT_SPEED = 1.0f;
+	const int ANIM_INDEX = 0;
+	const float ADD_TIME = 0.6f;
+	const float ADD_BLEND_RATE = 0.08f;
+	const float MAX_BLEND_RATE = 1.0f;
+	const float MIN_BLEND_RATE = 0.0f;
 }
 
 Animation::Animation(const char* fileName)
@@ -27,25 +32,25 @@ Animation::~Animation()
 }
 
 
-void Animation::Load(AnimState _animState, const char* fileName,bool isLoop,float play_speed)
+void Animation::Load(AnimState animState, const char* fileName,bool isLoop,float playSpeed)
 {
 	//アニメーションの読み込み
-	anim_handle[static_cast<int>(_animState)] = { MV1LoadModel(fileName),isLoop,play_speed };
+	anim_handle[static_cast<int>(animState)] = { MV1LoadModel(fileName),isLoop,playSpeed };
 }
 
 void Animation::Init()
 {
-	Load(AnimState::IDLE,			"animation/Standing.mv1",		true,	DEFAULT_SPEED);
-	Load(AnimState::JUMP,			"animation/Jumping_Up.mv1",		false,	DEFAULT_SPEED);
-	Load(AnimState::RUN,			"animation/standardRun.mv1",	true,	DEFAULT_SPEED);
-	Load(AnimState::ATTACK,			"animation/attack_01.mv1",		false,	DEFAULT_SPEED);
-	Load(AnimState::SPECIAL_ATTACK, "animation/SpecialAttack.mv1",	false,	DEFAULT_SPEED);
+	Load(AnimState::IDLE,			"animation/Standing.mv1",		true,	AnimConfig::DEFAULT_SPEED);
+	Load(AnimState::JUMP,			"animation/Jumping_Up.mv1",		false,	AnimConfig::DEFAULT_SPEED);
+	Load(AnimState::RUN,			"animation/standardRun.mv1",	true,	AnimConfig::DEFAULT_SPEED);
+	Load(AnimState::ATTACK,			"animation/attack_01.mv1",		false,	AnimConfig::DEFAULT_SPEED);
+	Load(AnimState::SPECIAL_ATTACK, "animation/SpecialAttack.mv1",	false,	AnimConfig::DEFAULT_SPEED);
 	Load(AnimState::KICK,			"animation/Kick.mv1",			false,	2.4f);
-	Load(AnimState::DOWN,			"animation/stunned.mv1",		false,	DEFAULT_SPEED);
-	Load(AnimState::FALL,			"animation/Falling.mv1",		false,	DEFAULT_SPEED);
-	Load(AnimState::AIRDASH,		"animation/air_dash.mv1",		false,	DEFAULT_SPEED);
-	Load(AnimState::CARTWHEEL,		"animation/cartwheel.mv1",		false,	DEFAULT_SPEED);
-	Load(AnimState::SKATE,			"animation/Skate.mv1",			true,	DEFAULT_SPEED);
+	Load(AnimState::DOWN,			"animation/stunned.mv1",		false,	AnimConfig::DEFAULT_SPEED);
+	Load(AnimState::FALL,			"animation/Falling.mv1",		false,	AnimConfig::DEFAULT_SPEED);
+	Load(AnimState::AIRDASH,		"animation/air_dash.mv1",		false,	AnimConfig::DEFAULT_SPEED);
+	Load(AnimState::CARTWHEEL,		"animation/cartwheel.mv1",		false,	AnimConfig::DEFAULT_SPEED);
+	Load(AnimState::SKATE,			"animation/Skate.mv1",			true,	AnimConfig::DEFAULT_SPEED);
 	Load(AnimState::SLASH,			"animation/SwordSlash.mv1",		false,	2.0f);
 	Load(AnimState::IMPACT,			"animation/Impact.mv1",			false,	0.3f);
 }
@@ -55,18 +60,15 @@ void Animation::SetIdleState()
 	Attach(static_cast<unsigned int>(AnimState::IDLE));
 }
 
-void Animation::Update(const int&_currentState,const int&_previousState,const bool&_is_blend)
+void Animation::Update(const int&currentState,const int&previousState,const bool&isBlend)
 {
-	current_anim_state = static_cast<AnimState>(_currentState);
-	previous_anim_state = static_cast<AnimState>(_previousState);
+	current_anim_state = static_cast<AnimState>(currentState);
+	previous_anim_state = static_cast<AnimState>(previousState);
 
 	if (previous_anim_state != current_anim_state) Attach(static_cast<unsigned int>(current_anim_state));
 	if (getIsBlendEnd() && getIsAttachSize() >= 2)Detach();
 	SetTotalTime();
-	PlayAnim(_is_blend);
-
-	//printfDx("total_time: %0.2f\n", total_time);
-	//printfDx("attach_index:%d\n", attach_index.size());
+	PlayAnim(isBlend);
 }
 
 void Animation::Attach(const int& currentState)
@@ -77,7 +79,7 @@ void Animation::Attach(const int& currentState)
 		printfDx("No animation handle found for state: %d\n", currentState);
 		return;
 	}
-	attach_index.push_back(MV1AttachAnim(model_handle, animIndex, itr->second.handle, TRUE));
+	attach_index.push_back(MV1AttachAnim(model_handle, AnimConfig::ANIM_INDEX, itr->second.handle, TRUE));
 	attach_is_loop.push_back(itr->second.is_loop);
 	attach_play_speed.push_back(itr->second.play_speed);
 
@@ -99,7 +101,6 @@ void Animation::Detach()
 		attach_index.pop_front();
 		attach_is_loop.pop_front();
 		attach_play_speed.pop_front();
-
 	}
 	else {
 		printfDx("No animation to detach\n");
@@ -107,13 +108,13 @@ void Animation::Detach()
 
 }
 
-void Animation::PlayAnim(const bool& _is_blend)
+void Animation::PlayAnim(const bool& isBlend)
 {
 
-	if(attach_index.size()>=2)BlendAnim(_is_blend);
+	if(attach_index.size()>=2)BlendAnim(isBlend);
 
 	//時間を加算
-	play_time += add_time*attach_play_speed.front();
+	play_time += AnimConfig::ADD_TIME*attach_play_speed.front();
 
 	//もし再生時間が総合時間を越えた時
 	if (play_time >= total_time) {
@@ -127,37 +128,30 @@ void Animation::PlayAnim(const bool& _is_blend)
 	}
 	//アタッチしたアニメーションの再生時間を設定
 	if(!attach_index.empty())MV1SetAttachAnimTime(model_handle, attach_index.front(), play_time);
-	//printfDx("play_time: %0.2f\n",play_time);
 }
 
 void Animation::GetAttachAnimFramePos(int framIndex)
 {
 	VECTOR frame_pos = MV1GetFramePosition(model_handle, framIndex);
-
-	//DrawFormatString(10,100,GetColor(255,255,255),"frame_pos:( %0.1f, %0.1f, %0.1f )\n",frame_pos.x,frame_pos.y,frame_pos.z);
 }
 
-void Animation::BlendAnim(bool _is_blend)
+void Animation::BlendAnim(bool isBlend)
 {
 	if (attach_index.size() < 2)return;
 	if (attach_index.size() >= 3)Detach();
-	_is_blend ? blend_rate += add_blend_rate : blend_rate = MAX_BLEND_RATE;
-	if (blend_rate > MAX_BLEND_RATE)blend_rate = MAX_BLEND_RATE;
+	isBlend ? blend_rate += AnimConfig::ADD_BLEND_RATE : blend_rate = AnimConfig::MAX_BLEND_RATE;
+	if (blend_rate > AnimConfig::MAX_BLEND_RATE)blend_rate = AnimConfig::MAX_BLEND_RATE;
 
 	int previous = attach_index.front();
 	int current = attach_index[1];
 
-	MV1SetAttachAnimBlendRate(model_handle,previous,MAX_BLEND_RATE-blend_rate);
+	MV1SetAttachAnimBlendRate(model_handle,previous, AnimConfig::MAX_BLEND_RATE-blend_rate);
 	MV1SetAttachAnimBlendRate(model_handle,current,blend_rate);
 
-	if (blend_rate >= MAX_BLEND_RATE) {
-		MV1SetAttachAnimBlendRate(model_handle,previous,MIN_BLEND_RATE);
-		blend_rate = MIN_BLEND_RATE;
-		//is_blend_end = true;
+	if (blend_rate >= AnimConfig::MAX_BLEND_RATE) {
+		MV1SetAttachAnimBlendRate(model_handle,previous, AnimConfig::MIN_BLEND_RATE);
+		blend_rate = AnimConfig::MIN_BLEND_RATE;
 		Detach();
-	}
-	else {
-		//is_blend_end = false;
 	}
 }
 

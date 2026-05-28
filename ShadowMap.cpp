@@ -20,7 +20,7 @@ void ShadowMap::Init()
 	chara_shadow_map_handle = MakeShadowMap(1024,1024);
 }
 
-void ShadowMap::DrawSetUP_Stage(Map& map)
+void ShadowMap::DrawSetUPStage(Map& map)
 {
 	//ƒ‰ƒCƒg‚ÌŒü‚«‚ğİ’è
 	SetShadowMapLightDirection(stage_shadow_map_handle, VGet(1.0f, -1.0f, 0.0f));
@@ -35,7 +35,7 @@ void ShadowMap::DrawSetUP_Stage(Map& map)
 	ShadowMap_DrawEnd();
 }
 
-void ShadowMap::DrawSetUP_Chara(Player& player, EnemyManager& enemy)
+void ShadowMap::DrawSetUPCharacter(Player& player, EnemyManager& enemy)
 {
 	VECTOR center = player.getPos();
 	SetShadowMapLightDirection(chara_shadow_map_handle, VGet(1.0f, -1.0f, 0.0f));

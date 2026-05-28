@@ -138,7 +138,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR lpszCmdLine, i
 	std::shared_ptr<Player>			player = std::make_shared<Player>(collision, special_move_gauge,input,camera);
 
 	shadowMap->Init();
-	shadowMap->DrawSetUP_Stage(*map);
+	shadowMap->DrawSetUPStage(*map);
 	float timeScale = 1.0f;
 	bool is_exit=false;
 	bool is_press_button = false;
@@ -265,7 +265,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR lpszCmdLine, i
 
 			skydome->Update(camera);
 			skydome->Draw();
-			shadowMap->DrawSetUP_Chara(*player, *enemies);
+			shadowMap->DrawSetUPCharacter(*player, *enemies);
 			shadowMap->SetUse(*player, *enemies, *map);
 			goal->Draw();
 			//graffiti->Update(*enemy, *effect);

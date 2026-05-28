@@ -32,12 +32,6 @@ class Animation :public Model
 {
 private:
 	
-	const int animIndex = 0;
-	const float add_time = 0.6f;
-	const float add_blend_rate = 0.08f;
-	const float MAX_BLEND_RATE = 1.0f;
-	const float MIN_BLEND_RATE = 0.0f;
-
 	std::map<int, Anim>anim_handle;	//アニメーションのハンドル
 	std::deque<int>attach_index;
 	std::deque<bool>attach_is_loop;
@@ -54,10 +48,10 @@ private:
 
 
 	//アニメーションの読み込み
-	void Load(AnimState _animState, const char* fileName, bool isLoop, float play_speed);
+	void Load(AnimState animState, const char* fileName, bool isLoop, float playSpeed);
 
 	//アニメーションをアタッチ
-	void Attach(const int& _currentState);
+	void Attach(const int& currentState);
 
 	void SetTotalTime();
 
@@ -65,8 +59,8 @@ private:
 	void Detach();
 
 	//アニメーションを再生する
-	void PlayAnim(const bool& _is_blend);
-	void BlendAnim(bool _is_blend);
+	void PlayAnim(const bool& _isBlend);
+	void BlendAnim(bool isBlend);
 
 
 public:
@@ -85,10 +79,10 @@ public:
 
 	void SetIdleState();
 
-	void SetOpacityRate(float opacity_rate);
+	void SetOpacityRate(float opacityRate);
 
 
-	void Update(const int&_currentState,const int& _previousState, const bool& _is_blend);
+	void Update(const int&currentState,const int& previousState, const bool& isBlend);
 
 	
 	//アタッチされているアニメーションのフレーム位置を取得

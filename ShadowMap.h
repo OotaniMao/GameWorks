@@ -1,8 +1,8 @@
 #pragma once
 
-const class Player;
-const class EnemyManager;
-const class Map;
+class Player;
+class EnemyManager;
+class Map;
 
 class ShadowMap
 {
@@ -14,8 +14,8 @@ public:
 	~ShadowMap();												//デストラクタ
 
 	void Init();												//シャドウマップ生成の初期化
-	void DrawSetUP_Stage(Map&map);								//シャドウマップ描画処理(影を落とす物体)
-	void DrawSetUP_Chara(Player& player, EnemyManager& enemy);	//シャドウマップ描画処理(影を落とす物体)
+	void DrawSetUPStage(Map&map);								//シャドウマップ描画処理(影を落とす物体)
+	void DrawSetUPCharacter(Player& player, EnemyManager& enemy);	//シャドウマップ描画処理(影を落とす物体)
 	void SetUse(Player& player, EnemyManager& enemy, Map& map);	//通常描画＋影を使用(影を受ける物体)
 	void Delete();												//シャドウマップの削除
 };

@@ -5,7 +5,7 @@
 Skydome::Skydome()
 	:Model("model/skydome/skydome.mv1")
 	, pos(VGet(0.0f, 0.0f, 0.0f))
-	, scaleSize(30.0f)
+	, scale_size(30.0f)
 {
 }
 
@@ -17,7 +17,7 @@ void Skydome::Update(std::shared_ptr<ICamera>camera)
 {
 	MATRIX matrix = MGetRotY(0);
 	pos = camera->getCurrentCameraPos();
-	matrix = MMult(matrix,MGetScale(VGet(scaleSize, scaleSize, scaleSize)));
+	matrix = MMult(matrix,MGetScale(VGet(scale_size, scale_size, scale_size)));
 	setModelMatrix(pos, matrix);
 }
 

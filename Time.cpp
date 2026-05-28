@@ -4,20 +4,26 @@
 #include"Font.h"
 //#define DEBUG
 
-//フォントのハンドル
-//フォント名　サイズ　太さ　フォントタイプ
-//int fontHandle = CreateFontToHandle("Bernard MT Condensed", 50, 2, DX_FONTTYPE_ANTIALIASING_16X16);
-
 const int MAX_TIME = 100;
 
+namespace TimeConfig
+{
+	float clock_w = 30.0f;
+	float clock_h = 30.0f;
+	float clock_cx = 395.0f;
+	float clock_cy = 45.0f;
+
+}
+
+
 Time::Time()
-	:Pos()
-	,Pos2()
-	,prevTime(0)
-	,startTime(0)
+	:pos()
+	,pos2()
+	,prev_time(0)
+	,start_time(0)
 	,count(0)
-	,maxTime(MAX_TIME)
-	,BrinkCount(0)
+	,max_time(MAX_TIME)
+	,brink_count(0)
 	,time_limit(MAX_TIME)
 {
 	Init();
@@ -27,54 +33,53 @@ Time::Time()
 void Time::Init()
 {
 	
-	Pos = VGet(100.0f, 20.0f, 0.0f);
-	Pos2 = VGet(800.0f, 50.0f, 0.0f);
-	dis = Pos2.x - Pos.x;
-	dis = dis / maxTime;
+	pos = VGet(100.0f, 20.0f, 0.0f);
+	pos2 = VGet(800.0f, 50.0f, 0.0f);
+	dis = pos2.x - pos.x;
+	dis = dis / max_time;
 }
 
-void Time::BlinkGraph()
+void Time::BlinkGraph(VECTOR pos,int graphHandle,bool transFlag)
 {
-	BrinkCount++;
-	if (BrinkCount >= 60) {
-		BrinkCount = 0;
+	brink_count++;
+	if (brink_count >= 60) {
+		brink_count = 0;
 	}
-	if (BrinkCount <= 30) {
-		//DrawGraph();
+	if (brink_count <= 30) {
+		DrawGraph(pos.x,pos.y, graphHandle, transFlag);
 	}
 }
 
 
 void Time::Start()
 {
-	currentTime = GetNowCount();
-	startTime = GetNowCount();
-	maxTime = MAX_TIME;
+	current_time = GetNowCount();
+	start_time = GetNowCount();
+	max_time = MAX_TIME;
 }
 
 void Time::Count(float &timeScale,const Player&player)
 {
 	if (player.getCurrentState()==State::S_SPECIAL_ATTACK) {
-		startTime = GetNowCount() - currentTime;
+		start_time = GetNowCount() - current_time;
 		return;
 	}
-	currentTime = GetNowCount() - startTime;
-	time_limit = maxTime - ( currentTime / 1000.0f);
+	current_time = GetNowCount() - start_time;
+	time_limit = max_time - ( current_time / 1000.0f);
 
 	static int last_check_time = 0;
-	int current_second = static_cast<int>(currentTime / 1000.0f);
+	int current_second = static_cast<int>(current_time / 1000.0f);
 	if (current_second >= 10&&current_second%10==0&&current_second!=last_check_time) {
 		timeScale += 0.001f;
 		last_check_time = current_second;
-		//currentTime = GetNowCount();
 	}
 	if (time_limit <= 0.0f)time_limit = 0.0f;
 }
 
 void Time::Draw(Font font)
 {
-	Pos = VGet(350.0f, 20.0f, 0.0f);
-	Pos2 = VGet(550.0f, 70.0f, 0.0f);
+	pos = VGet(350.0f, 20.0f, 0.0f);
+	pos2 = VGet(550.0f, 70.0f, 0.0f);
 	
 	float scale = 1.0f;//デフォルトの拡大率
 	int alpha = 255;//デフォルトの透明度
@@ -97,10 +102,10 @@ void Time::Draw(Font font)
 	}
 
 	//中心座標を基準に拡大縮小描画を行うための計算
-	float width = Pos2.x - Pos.x;
-	float height = Pos2.y - Pos.y;
-	float center_x = Pos.x + width / 2.0f;
-	float center_y = Pos.y + height / 2.0f;
+	float width = pos2.x - pos.x;
+	float height = pos2.y - pos.y;
+	float center_x = pos.x + width / 2.0f;
+	float center_y = pos.y + height / 2.0f;
 
 	//点滅（アルファ値）の適用
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA,alpha);
@@ -111,16 +116,12 @@ void Time::Draw(Font font)
 	//設定のリセット
 	SetDrawBright(255,255,255);
 
-	float clock_w = 30.0f;
-	float clock_h = 30.0f;
-	float clock_cx = 395.0f;
-	float clock_cy = 45.0f;
-
 	//時計アイコンと数値の描画
-	DrawExtendGraph(clock_cx-(clock_w/2.0f)*scale, clock_cy-(clock_h/2.0f)*scale, clock_cx+(clock_w/2.0f)*scale, clock_cy+(clock_h/2.0f)*scale, handle_clock, TRUE);
+	DrawExtendGraph(TimeConfig::clock_cx-(TimeConfig::clock_w/2.0f)*scale, TimeConfig::clock_cy-(TimeConfig::clock_h/2.0f)*scale,
+		TimeConfig::clock_cx+(TimeConfig::clock_w/2.0f)*scale, TimeConfig::clock_cy+(TimeConfig::clock_h/2.0f)*scale, handle_clock, TRUE);
 
 	float text_x = 420.0f;
-	float text_y = Pos.y;
+	float text_y = pos.y;
 
 	float offset_x = (text_x - center_x) * (scale - 1.0f);
 	float offset_y = (text_y - center_y) * (scale - 1.0f);
@@ -139,19 +140,19 @@ void Time::Draw(Font font)
 
 void Time::DrawTimeLimitBar(Font font)
 {
-	DrawBoxAA(Pos.x, Pos.y, Pos2.x, Pos2.y, GetColor(220, 240, 250), TRUE);
-	DrawBoxAA(Pos.x, Pos.y, Pos.x + (dis * time_limit), Pos2.y, GetColor(0, 233, 149), TRUE);
+	DrawBoxAA(pos.x, pos.y, pos2.x, pos2.y, GetColor(220, 240, 250), TRUE);
+	DrawBoxAA(pos.x, pos.y, pos.x + (dis * time_limit), pos2.y, GetColor(0, 233, 149), TRUE);
 
-	font.DrawFormatChar(400, Pos.y, "ジカン", static_cast<int>(FontSize::GAGA_Size_30), GetColor(255, 255, 255));
-	font.DrawFormatNum(500, Pos.y, time_limit, static_cast<int>(FontSize::font1_Size_30), GetColor(255, 255, 255));
+	font.DrawFormatChar(400, pos.y, "ジカン", static_cast<int>(FontSize::GAGA_Size_30), GetColor(255, 255, 255));
+	font.DrawFormatNum(500, pos.y, time_limit, static_cast<int>(FontSize::font1_Size_30), GetColor(255, 255, 255));
 
-	DrawLineAA(Pos.x, Pos.y, Pos2.x, Pos.y, GetColor(137, 137, 137));
-	DrawLineAA(Pos.x, Pos2.y, Pos2.x, Pos2.y, GetColor(137, 137, 137));
-	DrawLineAA(Pos2.x, Pos2.y, Pos2.x, Pos.y, GetColor(137, 137, 137));
-	DrawLineAA(Pos.x, Pos.y, Pos.x, Pos2.y, GetColor(137, 137, 137));
+	DrawLineAA(pos.x, pos.y, pos2.x, pos.y, GetColor(137, 137, 137));
+	DrawLineAA(pos.x, pos2.y, pos2.x, pos2.y, GetColor(137, 137, 137));
+	DrawLineAA(pos2.x, pos2.y, pos2.x, pos.y, GetColor(137, 137, 137));
+	DrawLineAA(pos.x, pos.y, pos.x, pos2.y, GetColor(137, 137, 137));
 
-	if (Pos2.y <= 0)
+	if (pos2.y <= 0)
 	{
-		Pos2.y = 0;
+		pos2.y = 0;
 	}
 }

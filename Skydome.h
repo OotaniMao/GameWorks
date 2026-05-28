@@ -7,7 +7,7 @@ class Skydome :public Model
 {
 private:
 	VECTOR pos;
-	float scaleSize;
+	float scale_size;
 public:
 	Skydome();
 	virtual ~Skydome();
