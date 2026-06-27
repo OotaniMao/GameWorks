@@ -1,0 +1,19 @@
+タイトル:StreetGraffiti
+
+制作時期：2年次
+制作期間：6か月
+
+制作環境：Dxlib,VisualStudio2022,C/C++
+
+概要：
+敵から逃げながらゴールを目指そう！
+必殺技でしか敵を倒せないから要注意！！
+
+
+操作方法:Xbox-Controller
+・移動		:Left Stick
+・カメラ移動	:Right Stick
+・キック＆決定	:B Button
+・必殺技発動	:RT Button
+・必殺技中	:Left Stick
+・ゲーム画面終了:Shift +Enter 同時押し
